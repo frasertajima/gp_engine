@@ -31,7 +31,7 @@ corrections. Each engine applies that idea to a different layer of the
 numerical stack.
 
 ### Tensor Core Engine v5.1 — the GEMM layer
-*[link]*
+[tensor_core_engine_v5](https://github.com/frasertajima/fortran/tree/main/dot_matrix/tensor_core_engine_v5)
 
 A CUDA Fortran shared library exposing dense GPU matrix ops to Python.
 Its differentiator over stock CuPy is **split-precision GEMM**
@@ -42,7 +42,7 @@ multiply — and is the right tool when a workload is dominated by dense or
 batched GEMM that plain TF32 isn't accurate enough for.
 
 ### MPDOK — the solver layer
-*[link]*
+[MPDOK](https://github.com/frasertajima/MPDOK)
 
 Mixed-Precision Dense-Operator Krylov solver: **GMRES-IR** and **LU-IR**,
 i.e. factor or precondition in FP32, then a few FP64 iterative-refinement
@@ -54,7 +54,6 @@ problems, …). Its sweet spot: dense linear systems where FP64 `solve` is
 the baseline to beat, on ill-conditioned matrices where plain FP32 fails.
 
 ### GP Engine (this) — the application layer
-*[link]*
 
 Where MPDOK solves *a* linear system, the GP engine owns the **whole
 Gaussian-process pipeline**, and that changes the design in three ways:
