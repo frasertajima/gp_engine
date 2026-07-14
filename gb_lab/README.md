@@ -14,6 +14,8 @@ machine with 8 NVIDIA Tesla V100-SXM2-32GB-LS GPUs."* We compare against
 their **Table 3** (exact GP with independent lengthscales per dimension —
 the ARD setting, matching ours), 3-trial means ± std.
 
+see: https://felixquinihildebet.wordpress.com/2026/07/14/gp-engine-lab-results/
+
 ---
 
 ## 1. Headline
