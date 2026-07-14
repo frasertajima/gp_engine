@@ -85,7 +85,7 @@ Verdict shorthand: 4/6 clean sweeps (elevators, bike, kin40k, 3droad),
   stable throughout. Full engineering postmortem:
   `../CUDA_FORTRAN_STREAMING_LESSONS.md`.
 
-## 4. Honest caveats — read before quoting the table
+## 4. Caveats — read before quoting the table
 
 ### 4.1 The protein/pol RMSE pattern (the 2/6 losses)
 
