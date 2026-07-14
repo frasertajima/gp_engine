@@ -15,6 +15,7 @@ their **Table 3** (exact GP with independent lengthscales per dimension —
 the ARD setting, matching ours), 3-trial means ± std.
 
 see: https://felixquinihildebet.wordpress.com/2026/07/14/gp-engine-lab-results/
+https://felixquinihildebet.wordpress.com/2026/07/14/the-irony-of-a-paper-titled-exact-gaussian-processes-on-a-million-data-points/
 
 ---
 
