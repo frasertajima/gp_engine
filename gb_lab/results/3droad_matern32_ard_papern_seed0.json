@@ -1,0 +1,49 @@
+{
+ "dataset": "3droad",
+ "seed": 0,
+ "kind": "matern32",
+ "ard": true,
+ "mode": "OOC",
+ "protocol": "paper",
+ "hyperopt_method": "nm",
+ "n_train": 278319,
+ "n_test": 86976,
+ "d": 3,
+ "rmse": 0.07993819054155472,
+ "nll": -0.9661285530866982,
+ "nll_median": -1.1362616389069582,
+ "n_pathological": 1,
+ "coverage95": 0.9816616077998528,
+ "fit_s": 4566.996246072929,
+ "pred_s": 4821.22579370701,
+ "relres": 6.95637677071753e-11,
+ "ir_steps": 3,
+ "converged": true,
+ "lambda_max": 3763.7788071552177,
+ "kappa_bound": 289459.3629227276,
+ "hyperopt": {
+  "evals": {
+   "iso_sub": 80,
+   "ard_sub": 233,
+   "lbfgsb_sub": 0,
+   "full": 0
+  },
+  "method": "nm",
+  "full_polish": false,
+  "lml_full": null,
+  "wall_s": 42.51964461803436,
+  "ell": [
+   77.13931333583088,
+   0.04147735995396376,
+   0.051298443970873873
+  ],
+  "sigma_f": 1.000000000000007,
+  "sigma_n": 0.11402976920143948,
+  "floor": 0.001
+ },
+ "t_factor": 3863.55144067097,
+ "t_ir": 703.4448054019595,
+ "host_gb": 157.201296004,
+ "tiers": "pinned 32.0GB, file 125.2GB",
+ "ooc_backend": "fortran"
+}

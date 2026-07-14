@@ -1,0 +1,49 @@
+{
+ "dataset": "kin40k",
+ "seed": 1,
+ "kind": "matern32",
+ "ard": true,
+ "mode": "in-core",
+ "protocol": "paper",
+ "hyperopt_method": "hybrid",
+ "n_train": 25600,
+ "n_test": 8000,
+ "d": 8,
+ "rmse": 0.07831647393998017,
+ "nll": -1.0826785590991226,
+ "nll_median": -1.2227414350320802,
+ "n_pathological": 0,
+ "coverage95": 0.980875,
+ "fit_s": 6.436415403033607,
+ "pred_s": 1.0353189840097912,
+ "relres": 7.417028412229208e-11,
+ "ir_steps": 14,
+ "converged": true,
+ "lambda_max": 172753.57422661598,
+ "kappa_bound": 58676469103.09252,
+ "hyperopt": {
+  "evals": {
+   "iso_sub": 80,
+   "ard_sub": 600,
+   "lbfgsb_sub": 606,
+   "full": 80
+  },
+  "method": "hybrid",
+  "full_polish": true,
+  "lml_full": null,
+  "wall_s": 780.3444766789908,
+  "ell": [
+   11.806807090156262,
+   11.095649744824122,
+   6.485040534142926,
+   7.360491694876762,
+   7.166584025040784,
+   5.669668040784305,
+   5.706801607769397,
+   7.961841151761364
+  ],
+  "sigma_f": 2.9813999701670935,
+  "sigma_n": 0.0017158587541945538,
+  "floor": 0.001
+ }
+}

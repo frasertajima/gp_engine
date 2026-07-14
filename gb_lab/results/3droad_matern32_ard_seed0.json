@@ -1,0 +1,45 @@
+{
+ "dataset": "3droad",
+ "seed": 0,
+ "kind": "matern32",
+ "ard": true,
+ "mode": "OOC",
+ "n_train": 391387,
+ "n_test": 43487,
+ "d": 3,
+ "rmse": 0.07016719671076063,
+ "nll": -1.023688610730499,
+ "nll_median": -1.1612478334369711,
+ "n_pathological": 0,
+ "coverage95": 0.9862947547542944,
+ "fit_s": 13373.694328548008,
+ "pred_s": 5106.172002220992,
+ "relres": 9.379500948861296e-11,
+ "ir_steps": 3,
+ "converged": true,
+ "lambda_max": 4152.037336498296,
+ "kappa_bound": 322718.05734185735,
+ "hyperopt": {
+  "evals": {
+   "iso_sub": 80,
+   "ard_sub": 253,
+   "full": 0
+  },
+  "full_polish": false,
+  "lml_full": null,
+  "wall_s": 45.184859884990146,
+  "ell": [
+   63.862569000996984,
+   0.04056150572686472,
+   0.048355617785143724
+  ],
+  "sigma_f": 1.0000000000000058,
+  "sigma_n": 0.11342766498300068,
+  "floor": 0.001
+ },
+ "t_factor": 11875.129564928007,
+ "t_ir": 1498.564763620001,
+ "host_gb": 309.565517156,
+ "tiers": "pinned 32.0GB, file 277.6GB",
+ "ooc_backend": "fortran"
+}
