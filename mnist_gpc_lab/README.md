@@ -15,6 +15,8 @@ predictive probability, benchmarked against an SVM — using this engine's CUDA
 Fortran-family linear algebra, extended for the first time from regression to
 classification.
 
+https://youtu.be/-xYvfOOMExQ?si=rhGZt9szQw25kTSl
+
 ## Why this lab, and why now
 
 Every other lab in this project (`gp_lab/`, `gblup_lab/`) exercises the engine's
