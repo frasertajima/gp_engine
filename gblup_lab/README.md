@@ -9,9 +9,7 @@ Full plan and rationale: `LAB_PLAN.md`. Detailed phase-by-phase results:
 ## Where this comes from: MPDOK
 
 Everything in this lab starts from **MPDOK** (Mixed-Precision Dense-Operator
-Krylov solver — Fraser's hand-built CUDA Fortran/CuPy GMRES-IR/LU-IR engine,
-`…/tensor_core_engine_v5/MPDOK/`; Fraser is publishing it to GitHub
-separately, link to be added here once it's up). MPDOK's `gblup/` lab had
+Krylov solver — our hand-built CUDA Fortran/CuPy GMRES-IR/LU-IR engine. MPDOK's `gblup/` lab had
 already done the hard, genuinely novel part: proving that *exact* genomic
 BLUP — a full N×N dense solve — beats the livestock/crop breeding industry's
 standard APY approximation (Misztal et al.'s Algorithm for Proven and
