@@ -1,0 +1,106 @@
+=== Phase 2 rerun v3: n=45,000, 200-year history, SOFT classifier ===
+
+Step 0: re-deriving Phase 1's fitted hyperparameters as transfer starting points...
+  method 3 starting point: {'ell': 1.0687423522580735, 'sigma_f2': 0.13418347926724628, 'sigma_n2': 0.24873835560399205}
+  method 4 normal starting point: {'ell': 0.10885859177061191, 'sigma_f2': 7.90503018452506e-07, 'sigma_n2': 0.24379020281028074}
+  method 4 systemic starting point: {'ell': 0.6765005507960627, 'sigma_f2': 0.669598125992198, 'sigma_n2': 0.22114036747109553}
+  method 4 p_hat, Phase 1 n=500/60yr fit (for reference only -- re-fit at scale below): 0.0333
+
+book: 45000 properties, mean insured value $349,884
+
+Step 1: drawing 200-year historical sample from the oracle...
+  8 true-systemic years (hidden from every method)
+
+Step 2: drawing 100000-year oracle ground truth (totals only)...
+  oracle true capital @ 99.5% = $893,334,043
+
+Method 1 (independence)...
+Method 2 (flat correlation)...
+  fitted rho=0.334
+Method 3 (vanilla spatial GP)... OOC refinement (3 evals):
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-6889955.7 t_factor=13.2s t_solve=746.5s relres=1.52e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-6551955.4 t_factor=13.2s t_solve=746.4s relres=1.49e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-6770718.7 t_factor=13.1s t_solve=746.5s relres=1.52e-07
+  refined: sigma_f2=0.1342 sigma_n2=0.2487 (scale=1.0)
+Method 4 (GP + regime-mixture, SOFT classifier)... OOC refinement (3 evals x 2 components, all years weighted):
+  p_hat re-fit on this session's own 200-year n=45,000 sample: 0.0400 (raw 0.0400; Phase 1 transfer was 0.0333)
+  mean responsibility=0.0400 -- every year contributes to BOTH components' fits, no hard stress/normal split
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-6599585.5 t_factor=13.2s t_solve=373.4s relres=1.79e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-6250951.1 t_factor=13.2s t_solve=373.4s relres=1.73e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-6444865.0 t_factor=13.2s t_solve=373.4s relres=2.04e-07
+  normal component refined: sigma_f2=0.0000 sigma_n2=0.2438
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-251317.6 t_factor=13.2s t_solve=746.7s relres=3.16e-06
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-238878.8 t_factor=13.1s t_solve=746.7s relres=5.13e-06
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-248349.6 t_factor=13.2s t_solve=746.8s relres=3.16e-06
+  systemic component refined: sigma_f2=0.6696 sigma_n2=0.2211
+
+=== Scoring against oracle ===
+[1_independence] capital=$69,775,076 achieved_survival=0.9331 (target 0.9950) shortfall=$457,406,268/yr gap_vs_true=$-823,558,967
+[2_flat_correlation] capital=$169,529,831 achieved_survival=0.9333 (target 0.9950) shortfall=$359,199,107/yr gap_vs_true=$-723,804,212
+[3_vanilla_gp] capital=$132,770,000 achieved_survival=0.9331 (target 0.9950) shortfall=$394,715,456/yr gap_vs_true=$-760,564,043
+[4_gp_regime_mixture] capital=$840,294,529 achieved_survival=0.9936 (target 0.9950) shortfall=$205,730,206/yr gap_vs_true=$-53,039,513
+
+wrote results_phase2_soft.json

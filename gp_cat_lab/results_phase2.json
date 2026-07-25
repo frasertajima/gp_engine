@@ -1,0 +1,64 @@
+{
+  "oracle_true_capital": 893334042.5929921,
+  "oracle_years": 100000,
+  "methods": {
+    "1_independence": {
+      "required_capital": 74605920.06180818,
+      "achieved_survival_probability": 0.93306,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.061939999999999995,
+      "expected_annual_shortfall_dollars": 452575424.2051635,
+      "capital_gap_vs_oracle_dollars": -818728122.5311838
+    },
+    "2_flat_correlation": {
+      "required_capital": 230357597.5360838,
+      "achieved_survival_probability": 0.93544,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.059559999999999946,
+      "expected_annual_shortfall_dollars": 308872878.54123557,
+      "capital_gap_vs_oracle_dollars": -662976445.0569082
+    },
+    "3_vanilla_gp": {
+      "required_capital": 136273662.95598564,
+      "achieved_survival_probability": 0.93313,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.06186999999999998,
+      "expected_annual_shortfall_dollars": 391328957.9267837,
+      "capital_gap_vs_oracle_dollars": -757060379.6370064
+    },
+    "4_gp_regime_mixture": {
+      "required_capital": 166259656.358603,
+      "achieved_survival_probability": 0.93332,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.06167999999999996,
+      "expected_annual_shortfall_dollars": 362414933.15997565,
+      "capital_gap_vs_oracle_dollars": -727074386.2343891
+    }
+  },
+  "params": {
+    "n_properties": 45000,
+    "historical_years": 25,
+    "oracle_years": 100000,
+    "n_scenarios": 20000,
+    "target_survival": 0.995,
+    "n_rff_features": 800,
+    "transferred_start": {
+      "method3": {
+        "ell": 1.0687423522580735,
+        "sigma_f2": 0.13418347926724628,
+        "sigma_n2": 0.24873835560399205
+      },
+      "method4_normal": {
+        "ell": 0.10885859177061191,
+        "sigma_f2": 7.90503018452506e-07,
+        "sigma_n2": 0.24379020281028074
+      },
+      "method4_systemic": {
+        "ell": 0.6765005507960627,
+        "sigma_f2": 0.669598125992198,
+        "sigma_n2": 0.22114036747109553
+      },
+      "p_hat": 0.03333333333333337
+    }
+  }
+}

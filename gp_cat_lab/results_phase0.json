@@ -1,0 +1,42 @@
+{
+  "n_properties": 500,
+  "n_years": 50000,
+  "params": {
+    "p_systemic": 0.06666666666666667,
+    "regime_severity_mult": 6.0,
+    "idio_sigma": 0.5,
+    "spatial_length_scale_deg": 0.5,
+    "spatial_field_sigma": 0.9
+  },
+  "check1_regime_mechanism": {
+    "n_normal_years": 46612,
+    "n_systemic_years": 3388,
+    "mean_total_loss_normal": 671448.8985088863,
+    "mean_total_loss_systemic": 6074378.980838066,
+    "severity_ratio": 9.046673535882901,
+    "near_pair_corr_normal_years": -0.0004623628864680061,
+    "near_pair_corr_systemic_years": 0.4771605940265154,
+    "passed": true
+  },
+  "check2_distance_decay": {
+    "unconditional_corr_near": 0.6235862974219778,
+    "unconditional_corr_far": 0.27662823257026836,
+    "passed": true
+  },
+  "check3_headline_tail_dependence": {
+    "q": 0.99,
+    "independence_baseline": 0.010000000000000009,
+    "lambda_u_near": 0.43915000000000004,
+    "lambda_u_far": 0.14945,
+    "excess_over_independence_near": 0.42915000000000003,
+    "passed": true
+  },
+  "check4_gaussian_comparator": {
+    "q": 0.99,
+    "lambda_u_gaussian": 0.19789999999999996,
+    "lambda_u_oracle_near": 0.43915000000000004,
+    "independence_baseline": 0.010000000000000009,
+    "passed": true
+  },
+  "all_passed": true
+}

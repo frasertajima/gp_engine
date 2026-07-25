@@ -1,0 +1,50 @@
+
+=== baseline ===
+    1_independence achieved_survival=0.9329
+    3_vanilla_gp   achieved_survival=0.9330
+    4_hard         achieved_survival=0.9625
+    4_soft         achieved_survival=0.9941
+
+=== ell=0.1 (localized field) ===
+    1_independence achieved_survival=0.9329
+    3_vanilla_gp   achieved_survival=0.9329
+    4_hard         achieved_survival=0.9346
+    4_soft         achieved_survival=0.9864
+
+=== ell=1.5 (regional field) ===
+    1_independence achieved_survival=0.9343
+    3_vanilla_gp   achieved_survival=0.9464
+    4_hard         achieved_survival=0.9826
+    4_soft         achieved_survival=0.9973
+
+=== p_sys=1/30 (rarer) ===
+    1_independence achieved_survival=0.9671
+    3_vanilla_gp   achieved_survival=0.9671
+    4_hard         achieved_survival=0.9703
+    4_soft         achieved_survival=0.9958
+
+=== p_sys=1/5 (frequent) ===
+    1_independence achieved_survival=0.8002
+    3_vanilla_gp   achieved_survival=0.8154
+    4_hard         achieved_survival=0.9650
+    4_soft         achieved_survival=0.9944
+
+=== m_sys=2.0 (weak signal) ===
+    1_independence achieved_survival=0.9345
+    3_vanilla_gp   achieved_survival=0.9394
+    4_hard         achieved_survival=0.9702
+    4_soft         achieved_survival=0.9931
+
+=== m_sys=10.0 (strong signal) ===
+    1_independence achieved_survival=0.9329
+    3_vanilla_gp   achieved_survival=0.9329
+    4_hard         achieved_survival=0.9641
+    4_soft         achieved_survival=0.9933
+
+=== non-stationary: p_sys drifts 1/30 -> 1/5 across history, oracle at 1/5 (future) ===
+    1_independence achieved_survival=0.8836
+    3_vanilla_gp   achieved_survival=0.8846
+    4_hard         achieved_survival=0.9639
+    4_soft         achieved_survival=0.9937
+
+wrote results_phase1_param_sweep.json

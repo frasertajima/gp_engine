@@ -1,0 +1,14 @@
+oracle ground truth (500000 years): true capital @ 99.5% = $10,200,242
+
+n_years=  60  mean true-systemic in sample=3.0 (expected 4.0)  mean fitted p_hat=0.051
+    1_independence           achieved_survival=0.9329 (+/-0.0000)  capital_gap=$    -9,299,988
+    2_flat_correlation       achieved_survival=0.9345 (+/-0.0020)  capital_gap=$    -8,071,512
+    3_vanilla_gp             achieved_survival=0.9330 (+/-0.0001)  capital_gap=$    -8,707,406
+    4_gp_regime_mixture      achieved_survival=0.9420 (+/-0.0119)  capital_gap=$    -7,267,336
+
+n_years= 120  mean true-systemic in sample=5.7 (expected 8.0)  mean fitted p_hat=0.047
+    1_independence           achieved_survival=0.9329 (+/-0.0000)  capital_gap=$    -9,292,700
+    2_flat_correlation       achieved_survival=0.9340 (+/-0.0009)  capital_gap=$    -8,031,178
+    3_vanilla_gp             achieved_survival=0.9330 (+/-0.0000)  capital_gap=$    -8,701,845
+    4_gp_regime_mixture      achieved_survival=0.9557 (+/-0.0128)  capital_gap=$    -5,672,685
+

@@ -1,0 +1,176 @@
+{
+  "1.0": {
+    "oracle_true_capital": 10273977.171263613,
+    "radius_deg": 3.477590416487102,
+    "by_years": {
+      "60": {
+        "n_years": 60,
+        "mean_classifier_separation": 0.9999999585091229,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.9329116666666667,
+            "mean_capital_gap_dollars": -9298304.649788514
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.9396800000000001,
+            "mean_capital_gap_dollars": -7728037.898802803
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9332933333333333,
+            "mean_capital_gap_dollars": -8709000.336952552
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.950865,
+            "mean_capital_gap_dollars": -6497928.619850829
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.9882166666666667,
+            "mean_capital_gap_dollars": 5081183.4273692565
+          }
+        }
+      },
+      "500": {
+        "n_years": 500,
+        "mean_classifier_separation": 0.9999997106846813,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.93291,
+            "mean_capital_gap_dollars": -9282132.601671016
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.9364016666666667,
+            "mean_capital_gap_dollars": -7471322.024628897
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9330033333333333,
+            "mean_capital_gap_dollars": -8581733.837303445
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.9776883333333334,
+            "mean_capital_gap_dollars": -3736788.303029331
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.9957533333333334,
+            "mean_capital_gap_dollars": 484719.2577277354
+          }
+        }
+      }
+    }
+  },
+  "0.2": {
+    "oracle_true_capital": 3345426.6328420113,
+    "radius_deg": 0.6916577810971903,
+    "by_years": {
+      "60": {
+        "n_years": 60,
+        "mean_classifier_separation": 0.9500914250794548,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.9354800000000001,
+            "mean_capital_gap_dollars": -2569333.7839434356
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.940185,
+            "mean_capital_gap_dollars": -2471196.982504362
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9408716666666667,
+            "mean_capital_gap_dollars": -2455253.594151824
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.9501033333333333,
+            "mean_capital_gap_dollars": -2245010.7415776625
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.9784833333333333,
+            "mean_capital_gap_dollars": 168180.8056522204
+          }
+        }
+      },
+      "500": {
+        "n_years": 500,
+        "mean_classifier_separation": 0.9793757274898113,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.9349516666666666,
+            "mean_capital_gap_dollars": -2579307.165990512
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.94217,
+            "mean_capital_gap_dollars": -2424074.777684068
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9414133333333333,
+            "mean_capital_gap_dollars": -2437515.10880822
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.9753833333333333,
+            "mean_capital_gap_dollars": 50076.04837833081
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.9716516666666667,
+            "mean_capital_gap_dollars": -1741773.2504391747
+          }
+        }
+      }
+    }
+  },
+  "0.05": {
+    "oracle_true_capital": 1432815.357752756,
+    "radius_deg": 0.32340214443912885,
+    "by_years": {
+      "60": {
+        "n_years": 60,
+        "mean_classifier_separation": 0.7649388515002347,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.9482283333333333,
+            "mean_capital_gap_dollars": -689600.5271387848
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.9507133333333333,
+            "mean_capital_gap_dollars": -679278.9729510447
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9494733333333333,
+            "mean_capital_gap_dollars": -682807.1326085366
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.9604283333333333,
+            "mean_capital_gap_dollars": -593562.4630243685
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.9817416666666667,
+            "mean_capital_gap_dollars": -310421.6881514585
+          }
+        }
+      },
+      "500": {
+        "n_years": 500,
+        "mean_classifier_separation": 0.7834768616448494,
+        "methods": {
+          "1_independence": {
+            "mean_achieved_survival": 0.9456733333333335,
+            "mean_capital_gap_dollars": -700807.3647889382
+          },
+          "2_flat_correlation": {
+            "mean_achieved_survival": 0.9491583333333334,
+            "mean_capital_gap_dollars": -685819.7390278535
+          },
+          "3_vanilla_gp": {
+            "mean_achieved_survival": 0.9510266666666668,
+            "mean_capital_gap_dollars": -679033.6651221152
+          },
+          "4_hard": {
+            "mean_achieved_survival": 0.9708866666666666,
+            "mean_capital_gap_dollars": -558764.6158209109
+          },
+          "4_soft": {
+            "mean_achieved_survival": 0.977595,
+            "mean_capital_gap_dollars": -485552.97100309795
+          }
+        }
+      }
+    }
+  }
+}

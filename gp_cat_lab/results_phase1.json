@@ -1,0 +1,48 @@
+{
+  "oracle_true_capital": 10200241.686472116,
+  "oracle_years": 500000,
+  "methods": {
+    "1_independence": {
+      "required_capital": 922390.3973725858,
+      "achieved_survival_probability": 0.932904,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.06209600000000004,
+      "expected_annual_shortfall_dollars": 5110511.526833441,
+      "capital_gap_vs_oracle_dollars": -9277851.28909953
+    },
+    "2_flat_correlation": {
+      "required_capital": 2224324.4073654283,
+      "achieved_survival_probability": 0.933786,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.06121399999999999,
+      "expected_annual_shortfall_dollars": 3863110.78846343,
+      "capital_gap_vs_oracle_dollars": -7975917.279106688
+    },
+    "3_vanilla_gp": {
+      "required_capital": 1531633.5866549404,
+      "achieved_survival_probability": 0.932978,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.06202200000000002,
+      "expected_annual_shortfall_dollars": 4506429.213057899,
+      "capital_gap_vs_oracle_dollars": -8668608.099817175
+    },
+    "4_gp_regime_mixture": {
+      "required_capital": 2581735.15535146,
+      "achieved_survival_probability": 0.93513,
+      "target_survival_probability": 0.995,
+      "survival_probability_gap": -0.05986999999999998,
+      "expected_annual_shortfall_dollars": 3581713.7573714284,
+      "capital_gap_vs_oracle_dollars": -7618506.531120656
+    }
+  },
+  "params": {
+    "n_properties": 500,
+    "historical_years": 60,
+    "historical_seed": 100,
+    "oracle_years": 500000,
+    "n_scenarios": 20000,
+    "target_survival": 0.995,
+    "true_p_systemic": 0.06666666666666667,
+    "n_true_systemic_in_sample": 2
+  }
+}

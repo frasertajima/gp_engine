@@ -1,0 +1,105 @@
+=== Phase 2: scale to n=45,000 ===
+
+Step 0: re-deriving Phase 1's fitted hyperparameters as transfer starting points...
+  method 3 starting point: {'ell': 1.0687423522580735, 'sigma_f2': 0.13418347926724628, 'sigma_n2': 0.24873835560399205}
+  method 4 normal starting point: {'ell': 0.10885859177061191, 'sigma_f2': 7.90503018452506e-07, 'sigma_n2': 0.24379020281028074}
+  method 4 systemic starting point: {'ell': 0.6765005507960627, 'sigma_f2': 0.669598125992198, 'sigma_n2': 0.22114036747109553}
+  method 4 p_hat (transferred as-is, not refit at scale): 0.0333
+
+book: 45000 properties, mean insured value $349,884
+
+Step 1: drawing 25-year historical sample from the oracle...
+  1 true-systemic years (hidden from every method)
+
+Step 2: drawing 100000-year oracle ground truth (totals only)...
+  oracle true capital @ 99.5% = $893,334,043
+
+Method 1 (independence)...
+Method 2 (flat correlation)...
+  fitted rho=0.467
+Method 3 (vanilla spatial GP)... OOC refinement (3 evals):
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-831210.8 t_factor=16.2s t_solve=93.4s relres=6.38e-08
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-797970.8 t_factor=15.6s t_solve=93.4s relres=6.89e-08
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-831323.0 t_factor=15.6s t_solve=93.4s relres=6.39e-08
+  refined: sigma_f2=0.1342 sigma_n2=0.2487 (scale=1.0)
+Method 4 (GP + regime-mixture)... OOC refinement (3 evals x 2 components):
+  fit split: 8 stress / 17 normal years (fit_quantile=0.320)
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-554747.8 t_factor=15.7s t_solve=31.8s relres=1.70e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-532756.3 t_factor=15.6s t_solve=31.7s relres=1.70e-07
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-555844.0 t_factor=15.6s t_solve=31.8s relres=2.02e-07
+  normal component refined: sigma_f2=0.0000 sigma_n2=0.2438
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=0.70: lml=-250301.6 t_factor=15.7s t_solve=29.9s relres=1.37e-06
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.00: lml=-238167.0 t_factor=15.6s t_solve=29.9s relres=2.25e-06
+    panel    1/  22
+    panel    5/  22
+    panel    9/  22
+    panel   13/  22
+    panel   17/  22
+    panel   21/  22
+    panel   22/  22
+    OOC eval scale=1.40: lml=-247840.5 t_factor=15.6s t_solve=29.9s relres=1.37e-06
+  systemic component refined: sigma_f2=0.6696 sigma_n2=0.2211
+
+=== Scoring against oracle ===
+[1_independence] capital=$74,605,920 achieved_survival=0.9331 (target 0.9950) shortfall=$452,575,424/yr gap_vs_true=$-818,728,123
+[2_flat_correlation] capital=$230,357,598 achieved_survival=0.9354 (target 0.9950) shortfall=$308,872,879/yr gap_vs_true=$-662,976,445
+[3_vanilla_gp] capital=$136,273,663 achieved_survival=0.9331 (target 0.9950) shortfall=$391,328,958/yr gap_vs_true=$-757,060,380
+[4_gp_regime_mixture] capital=$166,259,656 achieved_survival=0.9333 (target 0.9950) shortfall=$362,414,933/yr gap_vs_true=$-727,074,386
+
+wrote results_phase2.json

@@ -1,0 +1,114 @@
+{
+  "60": {
+    "n_years": 60,
+    "mean_true_systemic_in_sample": 3.0,
+    "expected_true_systemic": 4.0,
+    "mean_fitted_p_hat": 0.05111156535514207,
+    "methods": {
+      "1_independence": {
+        "mean_achieved_survival": 0.9329046666666666,
+        "std_achieved_survival": 9.428090416091745e-07,
+        "mean_capital_gap_dollars": -9299988.338818938
+      },
+      "2_flat_correlation": {
+        "mean_achieved_survival": 0.9344566666666667,
+        "std_achieved_survival": 0.0019533938557176633,
+        "mean_capital_gap_dollars": -8071512.276528533
+      },
+      "3_vanilla_gp": {
+        "mean_achieved_survival": 0.9330126666666666,
+        "std_achieved_survival": 0.0001296388144894319,
+        "mean_capital_gap_dollars": -8707406.389239538
+      },
+      "4_gp_regime_mixture": {
+        "mean_achieved_survival": 0.9890793333333333,
+        "std_achieved_survival": 0.006775129879853907,
+        "mean_capital_gap_dollars": -1471099.858172029
+      }
+    }
+  },
+  "120": {
+    "n_years": 120,
+    "mean_true_systemic_in_sample": 5.666666666666667,
+    "expected_true_systemic": 8.0,
+    "mean_fitted_p_hat": 0.0472226359995189,
+    "methods": {
+      "1_independence": {
+        "mean_achieved_survival": 0.9329040000000001,
+        "std_achieved_survival": 1.1102230246251565e-16,
+        "mean_capital_gap_dollars": -9292700.279835325
+      },
+      "2_flat_correlation": {
+        "mean_achieved_survival": 0.9340073333333333,
+        "std_achieved_survival": 0.0008541511705911552,
+        "mean_capital_gap_dollars": -8031177.819329341
+      },
+      "3_vanilla_gp": {
+        "mean_achieved_survival": 0.9329686666666666,
+        "std_achieved_survival": 1.5860503004484734e-05,
+        "mean_capital_gap_dollars": -8701845.150878035
+      },
+      "4_gp_regime_mixture": {
+        "mean_achieved_survival": 0.9946933333333333,
+        "std_achieved_survival": 0.0024104607212914646,
+        "mean_capital_gap_dollars": 259003.9928535906
+      }
+    }
+  },
+  "250": {
+    "n_years": 250,
+    "mean_true_systemic_in_sample": 15.666666666666666,
+    "expected_true_systemic": 16.666666666666668,
+    "mean_fitted_p_hat": 0.06266676666177406,
+    "methods": {
+      "1_independence": {
+        "mean_achieved_survival": 0.9329040000000001,
+        "std_achieved_survival": 1.1102230246251565e-16,
+        "mean_capital_gap_dollars": -9269875.449024225
+      },
+      "2_flat_correlation": {
+        "mean_achieved_survival": 0.934416,
+        "std_achieved_survival": 0.0006939990393845302,
+        "mean_capital_gap_dollars": -7813665.60117994
+      },
+      "3_vanilla_gp": {
+        "mean_achieved_survival": 0.932978,
+        "std_achieved_survival": 1.8402898322434534e-05,
+        "mean_capital_gap_dollars": -8672470.50060579
+      },
+      "4_gp_regime_mixture": {
+        "mean_achieved_survival": 0.990296,
+        "std_achieved_survival": 0.002064988781244773,
+        "mean_capital_gap_dollars": -1533653.8599043973
+      }
+    }
+  },
+  "500": {
+    "n_years": 500,
+    "mean_true_systemic_in_sample": 32.333333333333336,
+    "expected_true_systemic": 33.333333333333336,
+    "mean_fitted_p_hat": 0.06466678350303857,
+    "methods": {
+      "1_independence": {
+        "mean_achieved_survival": 0.9329040000000001,
+        "std_achieved_survival": 1.1102230246251565e-16,
+        "mean_capital_gap_dollars": -9253600.71939509
+      },
+      "2_flat_correlation": {
+        "mean_achieved_survival": 0.9348053333333333,
+        "std_achieved_survival": 0.0008089076310404856,
+        "mean_capital_gap_dollars": -7721986.874219802
+      },
+      "3_vanilla_gp": {
+        "mean_achieved_survival": 0.9329893333333333,
+        "std_achieved_survival": 1.667999467092948e-05,
+        "mean_capital_gap_dollars": -8625313.845408069
+      },
+      "4_gp_regime_mixture": {
+        "mean_achieved_survival": 0.9925173333333334,
+        "std_achieved_survival": 0.0025256240592948353,
+        "mean_capital_gap_dollars": -841293.9014159566
+      }
+    }
+  }
+}
