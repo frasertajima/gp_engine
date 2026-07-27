@@ -1,0 +1,83 @@
+{
+  "true_required_reserve_mw": 5059.783748931926,
+  "target_reliability": 0.9997260273972602,
+  "rust_vs_numpy_benchmark": {
+    "n_scenarios": 500000,
+    "rust_method1_wall_s": 0.030939931,
+    "rust_method2_wall_s": 0.031592595,
+    "rust_subprocess_call_wall_s": 0.06508966199999122,
+    "numpy_method1_wall_s": 1.1340209999998478,
+    "numpy_method2_wall_s": 1.3690124099994136,
+    "rust_speedup_method1": 36.65234418266311,
+    "rust_speedup_method2": 43.33333206719529
+  },
+  "scores": [
+    {
+      "method": "0_ercot_n1",
+      "reserve_mw": 571.006265515279,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 0.029296,
+      "annual_underprocurement_cost_usd": 27380813534.21911,
+      "annual_overprocurement_cost_usd": 0.0,
+      "net_dollar_gap_usd": 27380813534.21911
+    },
+    {
+      "method": "0_wecc_generic",
+      "reserve_mw": 728.5312546253695,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 0.344814,
+      "annual_underprocurement_cost_usd": 17125161260.42391,
+      "annual_overprocurement_cost_usd": 0.0,
+      "net_dollar_gap_usd": 17125161260.42391
+    },
+    {
+      "method": "1_independence_control",
+      "reserve_mw": 1478.6574852268618,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 0.936166,
+      "annual_underprocurement_cost_usd": 8612830908.794552,
+      "annual_overprocurement_cost_usd": 0.0,
+      "net_dollar_gap_usd": 8612830908.794552
+    },
+    {
+      "method": "2_aggregate_correlation",
+      "reserve_mw": 3047.250333433153,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 0.962642,
+      "annual_underprocurement_cost_usd": 2191001879.476842,
+      "annual_overprocurement_cost_usd": 0.0,
+      "net_dollar_gap_usd": 2191001879.476842
+    },
+    {
+      "method": "3_vanilla_spatial_gp",
+      "reserve_mw": 2644.1005582653943,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 0.952576,
+      "annual_underprocurement_cost_usd": 3504177377.1626434,
+      "annual_overprocurement_cost_usd": 0.0,
+      "net_dollar_gap_usd": 3504177377.1626434
+    },
+    {
+      "method": "4_gp_soft_em_regime_mixture",
+      "reserve_mw": 5974.229651479119,
+      "target_reliability": 0.9997260273972602,
+      "achieved_reliability": 1.0,
+      "annual_underprocurement_cost_usd": 0.0,
+      "annual_overprocurement_cost_usd": 109867977.57563266,
+      "net_dollar_gap_usd": 109867977.57563266
+    }
+  ],
+  "gp_fit_summary": {
+    "ell": 4.474948590256992,
+    "sigma_f2": 58.39787365825039,
+    "sigma_n2": 141.15199881844836,
+    "lml": -288883.3332248713,
+    "wall_s": 23.247282937999444
+  },
+  "regime_mixture_summary": {
+    "p_hat": 0.0531923667313353,
+    "p_hat_raw": 0.0531923667313353,
+    "mean_responsibility": 0.05385901677251749,
+    "wall_s": 44.77933753199977
+  }
+}

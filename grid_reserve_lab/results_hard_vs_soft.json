@@ -1,0 +1,45 @@
+{
+  "synthetic": {
+    "true_required_reserve_mw": 5059.783748931926,
+    "soft": {
+      "achieved_reliability": 1.0,
+      "net_dollar_gap_usd": 109867977.57563266,
+      "label": "soft",
+      "reserve_mw": 5974.229651479119,
+      "p_hat": 0.0531923667313353,
+      "p_hat_raw": 0.0531923667313353,
+      "mean_responsibility": 0.05385901677251749
+    },
+    "hard": {
+      "achieved_reliability": 1.0,
+      "net_dollar_gap_usd": 121245146.76836962,
+      "label": "hard",
+      "reserve_mw": 6068.92335550878,
+      "p_hat": 0.0531923667313353,
+      "p_hat_raw": 0.0531923667313353,
+      "n_drought_days": 34,
+      "n_normal_days": 696
+    }
+  },
+  "real": {
+    "soft": {
+      "achieved_reliability": 0.9972677595628415,
+      "total_annual_cost_usd": 4948134593.442484,
+      "label": "soft",
+      "reserve_mw": 37214.56752834281,
+      "p_hat": 0.4979320118854089,
+      "p_hat_raw": 0.4979320118854089,
+      "mean_responsibility": 0.4980692619906438
+    },
+    "hard": {
+      "achieved_reliability": 0.9972677595628415,
+      "total_annual_cost_usd": 4920749301.061458,
+      "label": "hard",
+      "reserve_mw": 37519.34652982274,
+      "p_hat": 0.4979320118854089,
+      "p_hat_raw": 0.4979320118854089,
+      "n_drought_days": 180,
+      "n_normal_days": 185
+    }
+  }
+}

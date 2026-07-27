@@ -1,0 +1,42 @@
+{
+  "n_sites": 100,
+  "n_days": 50000,
+  "params": {
+    "p_drought": 0.06666666666666667,
+    "drought_output_mult": 0.3,
+    "idio_sigma": 0.35,
+    "spatial_length_scale_deg": 3.0,
+    "spatial_field_sigma": 1.6
+  },
+  "check1_regime_mechanism": {
+    "n_normal_days": 46612,
+    "n_drought_days": 3388,
+    "mean_total_shortfall_normal_mw": 768.7465615484131,
+    "mean_total_shortfall_drought_mw": 3131.305773644103,
+    "severity_ratio": 4.073261501602051,
+    "near_pair_corr_normal_days": 0.0005984649725851389,
+    "near_pair_corr_drought_days": 0.7219295076110762,
+    "passed": true
+  },
+  "check2_distance_decay": {
+    "unconditional_corr_near": 0.3866287282958012,
+    "unconditional_corr_far": 0.24332240321114318,
+    "passed": true
+  },
+  "check3_headline_tail_dependence": {
+    "q": 0.99,
+    "independence_baseline": 0.010000000000000009,
+    "lambda_u_near": 0.60745,
+    "lambda_u_far": 0.13995,
+    "excess_over_independence_near": 0.59745,
+    "passed": true
+  },
+  "check4_gaussian_comparator": {
+    "q": 0.99,
+    "lambda_u_gaussian": 0.08180000000000001,
+    "lambda_u_oracle_near": 0.60745,
+    "independence_baseline": 0.010000000000000009,
+    "passed": true
+  },
+  "all_passed": true
+}

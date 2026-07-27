@@ -1,0 +1,14 @@
+{
+  "method0_ercot_n1_reserve_mw": 29610.291666666668,
+  "method0_wecc_generic_reserve_mw": 5824.156559011164,
+  "method1_independence": {
+    "reserve_mw": 23469.835084782168,
+    "wall_s": 0.012142227
+  },
+  "method2_aggregate_correlation": {
+    "reserve_mw": 27594.104195034248,
+    "wall_s": 0.009881576
+  },
+  "n_scenarios": 500000,
+  "n_threads": 24
+}

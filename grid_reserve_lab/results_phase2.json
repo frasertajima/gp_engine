@@ -1,0 +1,97 @@
+{
+  "fleet_ba_list": [
+    "AZPS",
+    "BPAT",
+    "CISO",
+    "ERCO",
+    "MISO",
+    "NWMT",
+    "NYIS",
+    "PACE",
+    "PACW",
+    "PJM",
+    "PNM",
+    "PSCO",
+    "SRP",
+    "SWPP",
+    "WACM"
+  ],
+  "nameplate_mw": [
+    938.3333333333334,
+    2573.684210526316,
+    11736.958333333334,
+    29610.291666666668,
+    24129.75,
+    1070.5833333333333,
+    1918.9583333333333,
+    3511.4166666666665,
+    785.625,
+    10516.863636363636,
+    1905.625,
+    4343.041666666667,
+    708.25,
+    21459.708333333332,
+    1274.0416666666667
+  ],
+  "scores": [
+    {
+      "method": "0_ercot_n1",
+      "reserve_mw": 29610.291666666668,
+      "achieved_reliability_test_year": 0.9918032786885246,
+      "annual_holding_cost_usd": 3557589193.3895836,
+      "annual_realized_underprocurement_cost_usd": 4857434372.705153,
+      "total_annual_cost_usd": 8415023566.094737
+    },
+    {
+      "method": "0_wecc_generic",
+      "reserve_mw": 5824.156559011164,
+      "achieved_reliability_test_year": 0.6530054644808743,
+      "annual_holding_cost_usd": 699755229.3033423,
+      "annual_realized_underprocurement_cost_usd": 150715081467.05566,
+      "total_annual_cost_usd": 151414836696.359
+    },
+    {
+      "method": "1_independence_control",
+      "reserve_mw": 23469.835084782168,
+      "achieved_reliability_test_year": 0.9836065573770492,
+      "annual_holding_cost_usd": 2819831449.4230776,
+      "annual_realized_underprocurement_cost_usd": 9770222869.301226,
+      "total_annual_cost_usd": 12590054318.724304
+    },
+    {
+      "method": "2_aggregate_correlation",
+      "reserve_mw": 27594.104195034248,
+      "achieved_reliability_test_year": 0.9918032786885246,
+      "annual_holding_cost_usd": 3315350216.4259896,
+      "annual_realized_underprocurement_cost_usd": 6127632479.833577,
+      "total_annual_cost_usd": 9442982696.259567
+    },
+    {
+      "method": "3_vanilla_spatial_gp",
+      "reserve_mw": 35778.180981570535,
+      "achieved_reliability_test_year": 0.9918032786885246,
+      "annual_holding_cost_usd": 4298642899.301805,
+      "annual_realized_underprocurement_cost_usd": 971664104.3157167,
+      "total_annual_cost_usd": 5270307003.617521
+    },
+    {
+      "method": "4_gp_soft_em_regime_mixture",
+      "reserve_mw": 37214.56752834281,
+      "achieved_reliability_test_year": 0.9972677595628415,
+      "annual_holding_cost_usd": 4471220505.556181,
+      "annual_realized_underprocurement_cost_usd": 476914087.88630325,
+      "total_annual_cost_usd": 4948134593.442484
+    }
+  ],
+  "gp_fit_summary": {
+    "ell_deg": 4.542766625751348,
+    "sigma_f2": 1674848.4150547266,
+    "sigma_n2": 18152.998342607003,
+    "lml": -44940.71547693027
+  },
+  "regime_mixture_summary": {
+    "p_hat": 0.4979320118854089,
+    "p_hat_raw": 0.4979320118854089,
+    "mean_responsibility": 0.4980692619906438
+  }
+}
