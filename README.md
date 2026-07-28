@@ -88,7 +88,7 @@ Gaussian-process pipeline**, and that changes the design in three ways:
 | 200,000* | 71 min | 3.4e-10, converged | — |
 
 \* out-of-core (factor streamed to pinned RAM + NVMe memmap panels); module
-not included in this preview. An 80-eval hyperparameter fit at n = 27k runs
+not included in this preview (now included as gp_ooc_solver.so). An 80-eval hyperparameter fit at n = 27k runs
 in ~2.8 min where FP64 would need ~41 min.
 
 The speedups are consumer-GPU numbers (FP64 at 1/64 rate). On datacenter
