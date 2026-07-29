@@ -3,8 +3,7 @@
 Exact Gaussian-process regression at consumer-GPU scale: fit, log marginal
 likelihood, hyperparameter optimization, and prediction with uncertainty, on
 dense RBF kernel systems up to **n = 40,000 in-core on an 8 GB GPU** (and to
-n = 200,000 with the out-of-core module, not included in this preview — see
-below).
+n = 200,000 with the out-of-core module).
 
 **What's in this folder**
 
