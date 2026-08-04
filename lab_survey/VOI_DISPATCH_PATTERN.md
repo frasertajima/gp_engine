@@ -238,6 +238,28 @@ informing a specific real decision point, not an aggregate informing itself).
 - Consider whether a genuinely new domain (outside this specific reserve/capital-sizing family) is
   a better next test than further work inside it, now that all four original candidates are done.
 
+## The headline takeaway (2026-08-04, Fraser's own synthesis, worth stating plainly)
+
+Across all four labs, the single variable that actually predicted whether posterior variance
+helped was **how hard the underlying classification problem already was for a plain GP mean**:
+- `hydro_reserve_lab` (AP≈0.87-0.93, genuine real ambiguity) → the largest positive result, entirely
+  variance-driven.
+- `shm_lab` (AP≈0.999-1.000, near-total separability) → variance added nothing; there was no
+  residual ambiguity left to resolve.
+- `climate_cat_lab` (a well-calibrated mean already available) → variance was a small net negative;
+  the mean alone already did the job, and MacKay-shrinkage cost a little extra on top.
+- `grid_reserve_lab` → a modest positive, the middle case.
+
+**The practical conclusion: sequential-VoI-over-a-GP-posterior is a niche tool, not a default
+upgrade — reach for it specifically when a plain GP/GPC mean is already struggling to separate the
+classes cleanly, and the decision structure has a real place (a Probe action) for resolving that
+struggle to pay off.** When the mean is already doing fine (near-perfect separability, or SVM/mean
+already close to optimal), the added machinery either does nothing or costs a little. This is the
+one-sentence version of what four labs' worth of real, checked evidence actually showed, and the
+reason this mechanism won't appear in most future labs by default — only when a genuine, checked
+classification-difficulty signal (AP well under ~0.95, real posterior variance spread) is already
+present.
+
 ## What this doc is not
 
 Not a claim that VoI dispatch will show a large or even positive effect in any of the labs above —
