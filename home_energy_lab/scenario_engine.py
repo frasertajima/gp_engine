@@ -23,6 +23,8 @@ does not silently mix currencies; `to_base_currency` is explicit.
 
 import numpy as np
 
+import rate_model as _rm  # single source of truth for BC Hydro's real rate constants
+
 # ---------------------------------------------------------------------
 # Exchange rates -- illustrative, approximate, EDITABLE. Not fetched live.
 # ---------------------------------------------------------------------
@@ -124,13 +126,19 @@ BATTERY_OPTIONS = {
 RATE_PRESETS = {
     "bc_hydro_2026": dict(
         label="BC Hydro 2026 (real, tiered + optional TOD)",
-        tiers=[(675.0, 0.1097), (float("inf"), 0.1408)],
-        basic_charge_per_month=6.17,
-        tod_discount=0.05, tod_surcharge=0.05,
-        offpeak_hours=set(range(0, 7)), peak_hours=set(range(16, 21)),
+        tiers=[(_rm.STEP1_THRESHOLD_KWH_PER_MONTH, _rm.STEP1_RATE), (float("inf"), _rm.STEP2_RATE)],
+        basic_charge_per_month=_rm.BASIC_CHARGE_PER_MONTH,
+        tod_discount=_rm.TOD_DISCOUNT, tod_surcharge=_rm.TOD_SURCHARGE,
+        # Imported from `rate_model` rather than re-typed. These were duplicated
+        # literals until 2026-08-05, and the duplication immediately bit: the L4 fix
+        # widened the real off-peak window to 11pm-7am in `rate_model` but left this
+        # copy at the old hours 0-6, so `dispatch_sim` CHARGED on an 8-hour window
+        # while this module PRICED on a 7-hour one -- a silent $20/yr inconsistency
+        # between Phase 3 and the Scenario Builder for the identical system.
+        offpeak_hours=_rm.OFFPEAK_HOURS, peak_hours=_rm.PEAK_HOURS,
         # Real RS 2289 self-generation export credit, effective 2026-07-01, flat and
         # settled per billing cycle -- research/08_bc_hydro_export_compensation.md.
-        export_credit_per_kwh=0.10,
+        export_credit_per_kwh=_rm.EXPORT_CREDIT_PER_KWH,
         source="research/04_vancouver_real_calibration_case.md, "
                "research/08_bc_hydro_export_compensation.md, rate_model.py",
     ),
@@ -358,3 +366,75 @@ def optimize_grid(solar_kw_grid, battery_kwh_grid, solar_hw, battery_hw, rate_st
     else:
         raise ValueError(f"unknown objective {objective!r}")
     return best, rows
+
+
+if __name__ == "__main__":
+    # ------------------------------------------------------------------
+    # Currency self-test (CODE_REVIEW.md M1). The property that matters: a
+    # given real-world purchase must cost the same in the base currency no
+    # matter which currency its catalog entry happens to be denominated in.
+    # The pre-fix code failed this whenever price and rebate differed in
+    # currency, because only the price was converted.
+    # ------------------------------------------------------------------
+    fx = DEFAULT_FX_TO_CAD
+    ok = True
+
+    # 1. FX-INVARIANCE: the same hardware, same rebate, expressed in USD vs its
+    #    exact CAD equivalent, must produce identical net capital.
+    usd = dict(currency="USD", unit_cost=1000.0, rebate_per_unit=200.0,
+               rebate_cap=900.0, rebate_pct_cap=0.5, rebate_currency="USD")
+    cad = dict(currency="CAD", unit_cost=1000.0 * fx["USD"], rebate_per_unit=200.0 * fx["USD"],
+               rebate_cap=900.0 * fx["USD"], rebate_pct_cap=0.5, rebate_currency="CAD")
+    g1, r1, n1 = _hardware_capital(10.0, usd, fx)
+    g2, r2, n2 = _hardware_capital(10.0, cad, fx)
+    inv = abs(n1 - n2) < 1e-9
+    ok &= inv
+    print(f"[FX-invariance]      USD entry net=${n1:,.2f}  equivalent CAD entry net=${n2:,.2f}  "
+          f"{'ok' if inv else 'FAIL'}")
+
+    # 2. MIXED-CURRENCY (the real bug): USD hardware + a CAD-denominated rebate.
+    #    The rebate must be converted; treating CAD 500 as USD 500 over-credits by 38%.
+    mixed = dict(currency="USD", unit_cost=700.0, rebate_per_unit=500.0,
+                 rebate_cap=1500.0, rebate_pct_cap=0.5, rebate_currency="CAD")
+    g, r, n = _hardware_capital(13.5, mixed, fx)
+    expected_rebate = min(13.5 * 500.0, 1500.0, 0.5 * g)   # CAD figures, cap binds at 1500
+    correct = abs(r - expected_rebate) < 1e-9
+    wrong_if_unconverted = expected_rebate * fx["USD"]
+    ok &= correct
+    print(f"[mixed currency]     gross=${g:,.2f} rebate=${r:,.2f} (correct CAD) vs "
+          f"${wrong_if_unconverted:,.2f} if the rebate were mistakenly read as USD  "
+          f"{'ok' if correct else 'FAIL'}")
+
+    # 3. DEFAULT: an entry with no `rebate_currency` must inherit its own `currency`
+    #    (a self-contained entry is in one money).
+    same = dict(currency="EUR", unit_cost=100.0, rebate_per_unit=10.0, rebate_pct_cap=1.0)
+    explicit = dict(same, rebate_currency="EUR")
+    d = abs(_hardware_capital(5.0, same, fx)[2] - _hardware_capital(5.0, explicit, fx)[2]) < 1e-9
+    ok &= d
+    print(f"[default inheritance] omitting rebate_currency == declaring the entry's own  "
+          f"{'ok' if d else 'FAIL'}")
+
+    # 4. A rebate can never exceed the purchase price.
+    absurd = dict(currency="CAD", unit_cost=100.0, rebate_per_unit=9999.0, rebate_pct_cap=1.0)
+    _, r4, n4 = _hardware_capital(1.0, absurd, fx)
+    capped = n4 >= -1e-9 and abs(r4 - 100.0) < 1e-9
+    ok &= capped
+    print(f"[rebate <= price]    net=${n4:,.2f} (must be >= 0)  {'ok' if capped else 'FAIL'}")
+
+    # 5. An unknown currency must fail loudly, not silently.
+    try:
+        to_base_currency(1.0, "GBP", fx)
+        loud = False
+    except KeyError:
+        loud = True
+    ok &= loud
+    print(f"[unknown currency]   raises KeyError  {'ok' if loud else 'FAIL'}")
+
+    # 6. Every shipped preset must round-trip through _hardware_capital.
+    for name, hw in {**SOLAR_OPTIONS, **BATTERY_OPTIONS}.items():
+        q = hw.get("fixed_kw") or hw.get("fixed_kwh") or 1.0
+        g, r, n = _hardware_capital(q, hw, fx)
+        assert n >= -1e-9, f"{name} produced negative net capital"
+        print(f"    {name:22s} qty={q:5.2f}  gross=${g:9,.2f}  rebate=${r:8,.2f}  net=${n:9,.2f} CAD")
+
+    print("PASS" if ok else "FAIL")

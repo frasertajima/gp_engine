@@ -31,9 +31,9 @@ real BC Hydro bill, and real BC Hydro rate/rebate structures (verified directly 
 1. **Phase 0** — the winter low-solar/high-heating "stress regime" is real (1.78x co-occurrence
    excess, 4.5x day-to-day persistence), confirmed directly on real data.
 2. **Phase 1** — the top of the dispatch ladder is a **statistical tie**: all eight proactive
-   methods within $36/yr, the top three within $5 (~1% of the bill). The two effects large enough to
-   be real are proactive off-peak pre-charging (~$130-165/yr) and a peak-window battery reserve
-   (~$25/yr) — neither a forecasting result. Regime-awareness, tested on a lever verified capable of moving the number,
+   methods within $34/yr, the top three within $8 (<2% of the bill). The two effects large enough
+   to be real are proactive off-peak pre-charging (~$163/yr) and a peak-window battery reserve
+   (~$30/yr) — neither a forecasting result. Regime-awareness, tested on a lever verified capable of moving the number,
    is a **null**.
 3. **Phase 2** — GPC's calibrated mean beats an SVM control, but posterior variance (the sequential
    value-of-information mechanism) adds nothing on top, across the entire cost-ratio range tested.
@@ -49,7 +49,7 @@ real BC Hydro bill, and real BC Hydro rate/rebate structures (verified directly 
 >
 > **One of the review's own corrections was then partly overturned by another.** Fixing the export
 > credit reversed the finding that a model-free calendar rule beat the fitted GP — the GP ends up
-> ~$5/yr ahead, not $1 behind — and shrank the regime layer's penalty from $22/yr to $4/yr. Both
+> ~$4/yr ahead, not $1 behind — and shrank the regime layer's penalty from $22/yr to $8/yr. Both
 > revisions are recorded in place rather than folded away, because the sequence is the point: a fix
 > to the *economics* changed the verdict on the *models*.
 
@@ -152,10 +152,10 @@ in the ladder:
   month's running total passes BC Hydro's real 675 kWh Step 1 threshold. This is the policy class
   `research/04` explicitly asked for and no method had addressed.
 
-**Read the bar heights, not the ordering.** All eight proactive methods span $36/yr and the top three $5
-— about 1% of the bill, which is inside this model's own resolution. What the chart actually shows
-is one large step (any proactive off-peak pre-charging, $130-165/yr off Method 0) and one modest one
-(adding a peak-window reserve, ~$25/yr). Neither is a forecasting effect.
+**Read the bar heights, not the ordering.** All eight proactive methods span $34/yr and the top
+three $8 — under 2% of the bill, inside this model's own resolution. What the chart actually shows
+is one large step (any proactive off-peak pre-charging, ~$163/yr off Method 0) and one modest one
+(adding a peak-window reserve, ~$30/yr). Neither is a forecasting effect.
 
 Bars in grey consume no fitted model; blue is the GP; green is the GP + soft-EM layer.""")
 
@@ -357,7 +357,7 @@ share one failure mode:
 |---|---|---|
 | Phase 1, Method 3 | "regime-awareness is a small real negative" | the margin was clipped to **exactly zero** on every high-demand day — it could not have helped |
 | Phase 1, Method 2 | "the plain GP forecast wins" | the whole ladder is a tie; forecasting is worth ~1% |
-| Phase 3 | "4kW is optimal, 47% cheaper" | export was valued at **$0**; crediting it cut the margin to $7/yr |
+| Phase 3 | "4kW is optimal, 47% cheaper" | export was valued at **$0**; crediting it cut the margin to $12/yr |
 | Battery specs | "documented mid-range assumption" | charge power was 2.3x too fast; the deferral to source it was never discharged |
 
 In each case **a layer silently lost its ability to affect the outcome, and the flat result was then

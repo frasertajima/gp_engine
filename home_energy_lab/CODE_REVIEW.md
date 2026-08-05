@@ -30,7 +30,21 @@ lab's four headline claims, plus one research gap large enough to move a third.
 > model-free calendar rule to ~$5 *ahead*, and the regime layer's penalty shrinks from $22/yr to
 > $4/yr — a null rather than a negative. The strong "no fitted model needed" claim did not survive
 > the economics fix; the weaker and still-useful form (forecasting is worth ~1% of the bill, not the
-> 6% originally implied) does. **Remaining open: the M and L items below.**
+> 6% originally implied) does.
+>
+> **FINAL UPDATE — all M and L items fixed and re-run (2026-08-05).** Highlights: **M1** (currency)
+> now converts rebates explicitly via a `rebate_currency` key and ships a self-test proving
+> FX-invariance — the mixed-currency case was over-crediting by 38% ($1,500 vs $2,070 on one
+> battery). **M3** gave `build_payoff_matrix_voi` an optional `v_drill_residual` (default 0.0, so the
+> other five VoI labs are bit-identical); the derived breakeven moves 0.3738 → 0.0495. **L4** replaced
+> the 7-hour off-peak proxy with BC Hydro's real 8-hour 11pm-7am window. Shared modules
+> (`gp1d.py`, `decision.py`, `gp_classifier.py`) were changed **only** in backward-compatible ways,
+> since six other labs depend on them. Phases 1, 2 and 3 all re-run; **no conclusion reversed.**
+>
+> *One error of my own, caught by the work itself:* the first M3 breakeven inversion used
+> `net/v_gross`, valid only when the residual is zero. It made drilling negative-EV in both states
+> above p=0.10 and collapsed the entire 200-seed sweep to a uniform $0.00. The all-zeros column is
+> what exposed it — see `RESULTS_PHASE2.md`.
 
 ## 1. Critical — findings that invalidate a published conclusion
 
@@ -230,6 +244,7 @@ that a whole class of policy the research explicitly identified is unexamined.)
 
 ## 3. Medium
 
+**M1 — ✅ FIXED.** Every entry may declare `rebate_currency` (defaults to its own `currency`, the intuitive reading of a self-contained entry); `rebate_per_unit`, `rebate_cap` and `rebate_fixed` are all converted before the `min()`. Rebates are additionally floored at the purchase price, and an unknown currency now raises instead of failing obscurely. A six-part self-test in `__main__` proves FX-invariance, the mixed-currency case, default inheritance, the price floor, and loud failure. \
 **M1. `scenario_engine._hardware_capital` silently mixes currencies in the rebate path.** The module
 docstring promises *"this module does not silently mix currencies; `to_base_currency` is explicit."*
 It isn't, for rebates:
@@ -246,6 +261,7 @@ the exact use case the catalog is built for — is wrong by the FX factor (38% f
 an explicit `rebate_currency` key defaulting to `currency`, and route the rebate through
 `to_base_currency` too.
 
+**M2 — ✅ FIXED.** `build_dataset` returns raw net load; the threshold is derived inside `fit_classifier` from the training split alone. The split is consequently unstratified — class balance measured stable within a point of 25% across seeds. Test AP unchanged at ≈0.82. \
 **M2. Label-threshold leakage in `stress_classifier.build_dataset`.** The 75th-percentile high-demand
 threshold is computed over the whole 2017-2025 pool (`stress_classifier.py:47`) and the train/val/test
 split is drawn from it afterward, so the label definition carries a scalar of test-set information.
@@ -253,6 +269,7 @@ At n=3,286 the effect is negligible, but it is free to fix: compute the threshol
 split inside `fit_classifier`. The same applies to `derive_dispatch_constants`, which computes
 `delta_kwh` over the full pool.
 
+**M3 — ✅ FIXED.** See the banner above. \
 **M3. The VoI drill payoff overstates drill's downside.** `build_payoff_matrix_voi` sets
 `V[drill, waste] = -c_drill` — if the day turns out normal, the pre-charge is scored as a total loss.
 Physically the energy is still in the battery and still displaces load; only the *arbitrage premium*
@@ -261,6 +278,7 @@ is forfeited. The correct waste payoff is roughly `-delta_kwh * (offpeak_rate - 
 change Phase 2's null — the sweep in §5.2 covers breakevens from 0.05 to 0.90 — but the derived
 constant is not the right one.
 
+**M4 — ✅ FIXED.** `SIGMA_PROBE2_LOCAL = 0.10` is now set in `run_dispatch_voi.py`. Probe niche remains exactly 0.0000. \
 **M4. `voi.SIGMA_PROBE2_DEFAULT` is inherited from a different lab's variance range.** The constant is
 documented as *"tuned so Probe has a real (non-degenerate) niche on this dataset's actual variance
 range (~0.08-0.38)"* — that is the **mining** lab's range. This lab's is 0.014-0.66. `run_dispatch_voi`
@@ -271,6 +289,7 @@ set its own value rather than inherit a constant whose docstring describes someo
 
 ## 4. Low — including the `gp_engine` shared modules
 
+**L1 — ✅ FIXED.** `psi_prev` is assigned before the `break`. \
 **L1. `gp_classifier.py:239-241` — stale `log_marginal` on convergence.** The Newton loop `break`s on
 convergence *before* `psi_prev = psi`, so `log_marginal = psi_prev - 0.5*logdetB` and
 `fit_info.psi` are computed from the **previous** iteration's ψ, not the converged one. Bounded by
@@ -278,6 +297,7 @@ convergence *before* `psi_prev = psi`, so `log_marginal = psi_prev - 0.5*logdetB
 anyone using `log_marginal` for model selection with a looser tol. One-line fix: assign `psi_prev = psi`
 before the `break`.
 
+**L2 — ✅ FIXED (opt-in).** `fit(center=True)` centres and `predict` adds the offset back. Default stays `False` so `shm_lab`'s published results are bit-identical; demonstrated far-field reversion to 0.000 uncentred vs the data mean centred. \
 **L2. `shm_lab/gp1d.py` has no mean function.** Zero-mean GP prior fit against data with mean
 14.6 kWh. **Checked, and it does not bite here** — RMSE 7.036 uncentered vs. 7.037 centered — because
 the optimizer compensates by inflating `sigma_f2` to 1,580 and `ell` to 68 (vs. 866 and 53 when
@@ -285,17 +305,20 @@ centered), effectively fitting a near-linear function. But those hyperparameters
 the model is one dataset away from reverting predictions toward zero in the far field. Since this
 module is shared, recommend centering `y` in `fit` and adding the mean back in `predict`.
 
+**L3 — ✅ FIXED.** Docstring rewritten; the phantom `build_voi_payoff` reference is gone. \
 **L3. `voi.probe_value`'s docstring is self-contradictory** (`voi.py:99-101`): it says `c_probe`
 *"defaults to..."* then *"actually just reads the probe cost baked into V's off-diagonal if not
 given; see build_voi_payoff below"*. The code raises `ValueError` if `c_probe is None`, and
 `build_voi_payoff` does not exist anywhere in the codebase.
 
+**L4 — ✅ FIXED.** Real 11pm-7am window; `dispatch_sim` credits hour-23 charging to the following day's plan. Everything got ~$10-20/yr cheaper; nothing reordered. \
 **L4. `rate_model`'s off-peak window is 7 hours, not the real 8.** Hours 0-6 vs. the real 11pm-7am.
 Documented at the top of the module, but worth noting the consequence: hour 23 pays the standard rate
 and the pre-charge window is 12.5% shorter than reality, so Methods 1-3 are modeled slightly *worse*
 than they would really perform. Conservative direction, but it interacts with C2 — a real 8-hour
 window would give the seasonal rule more room, not less.
 
+**L5 — ✅ FIXED.** Marked superseded inline. \
 **L5. `LAB_PLAN.md:58` still states the US 30% federal credit** in Domain background with no
 superseded marker, while line 201 correctly records the correction. `research/03` is marked
 superseded in `RESEARCH.md` but is still cited unqualified in the plan's own summary.

@@ -142,7 +142,7 @@ code('''SCENARIOS = [
          solar_kw=0.0, battery_kwh=0.0, solar_opt="bc_generic_rooftop", battery_opt="no_battery"),
     dict(key="phase3_optimal", label="Phase 3 cost-optimal: 4kW solar, no battery",
          solar_kw=4.0, battery_kwh=0.0, solar_opt="bc_generic_rooftop", battery_opt="no_battery"),
-    # Added 2026-08-05: once export is credited (RS 2289), 6kW lands within $7/yr of 4kW --
+    # Added 2026-08-05: once export is credited (RS 2289), 6kW lands within $12/yr of 4kW --
     # a statistical tie, so the runner-up belongs in the comparison rather than being hidden
     # behind a single "optimal" label. See RESULTS_PHASE3.md.
     dict(key="phase3_runner_up", label="Phase 3 runner-up: 6kW solar, no battery",
@@ -311,33 +311,33 @@ Two genuinely different targets, both real user asks: cheapest system that's **e
 self-sufficient X% of the year ("most of the time"), vs. cheapest system with **zero grid import on
 100% of days** ("all of the time" — a much harder, more expensive bar).""")
 
-code('''self_suff_targets = [0.3, 0.5, 0.7]
+code('''# NOTE (2026-08-05): `rows_cost` above already contains EVERY grid point this section
+# needs. An earlier version called se.optimize_grid() again for each self-sufficiency
+# target and once more for the "all of the time" scan -- recomputing the identical
+# 8x4 grid FIVE times, each a full 9-year hourly dispatch simulation per point. That
+# made this notebook take ~30 minutes for work that is ~4x smaller. The grid is now
+# computed once and every question below is answered by filtering it in plain Python.
+self_suff_targets = [0.3, 0.5, 0.7]
 rows_self_suff = []
 for target in self_suff_targets:
-    best, _ = se.optimize_grid(
-        SOLAR_GRID, BATTERY_GRID, solar_options["bc_generic_rooftop"], battery_options["tesla_powerwall"],
-        rate, gp, net_load_series, test_hourly, n_years,
-        objective="self_sufficiency", self_sufficiency_target=target)
+    feasible = [r for r in rows_cost if r["self_sufficiency"] >= target]
+    best = min(feasible, key=lambda r: r["total_annual"]) if feasible else None
     rows_self_suff.append((target, best))
     if best is None:
         print(f"target >= {target:.0%} energy self-sufficient: NOT REACHABLE on this hardware grid")
     else:
-        print(f"target >= {target:.0%} energy self-sufficient ('most of the time'):  "
-              f"{best['solar_kw']:.0f}kW + {best['battery_kwh']:.1f}kWh, "
-              f"${best['total_annual']:,.0f}/yr, actual={best['self_sufficiency']:.1%}, "
-              f"fully-self-suff-days={best['frac_fully_self_sufficient_days']:.1%}")
+        print(f"target >= {target:.0%} energy self-sufficient (\'most of the time\'):  "
+              f"{best[\'solar_kw\']:.0f}kW + {best[\'battery_kwh\']:.1f}kWh, "
+              f"${best[\'total_annual\']:,.0f}/yr, actual={best[\'self_sufficiency\']:.1%}, "
+              f"fully-self-suff-days={best[\'frac_fully_self_sufficient_days\']:.1%}")
 
 # "All of the time" -- the harder bar: zero grid import on every single day.
-all_rows = [r for _, r in [(None, r) for r in rows_cost]] if False else None
-_, all_scan = se.optimize_grid(
-    SOLAR_GRID, BATTERY_GRID, solar_options["bc_generic_rooftop"], battery_options["tesla_powerwall"],
-    rate, gp, net_load_series, test_hourly, n_years, objective="cost")
-best_all_time = max(all_scan, key=lambda r: r["frac_fully_self_sufficient_days"])
-print(f"\\nBest achievable 'fully self-sufficient every day' on this grid: "
-      f"{best_all_time['solar_kw']:.0f}kW + {best_all_time['battery_kwh']:.1f}kWh reaches "
-      f"only {best_all_time['frac_fully_self_sufficient_days']:.1%} of days at zero grid import "
-      f"(${best_all_time['total_annual']:,.0f}/yr) -- 'all of the time' is a much harder, more "
-      f"expensive bar than 'most of the time' against real Vancouver winter solar output.")''')
+best_all_time = max(rows_cost, key=lambda r: r["frac_fully_self_sufficient_days"])
+print(f"\\nBest achievable \'fully self-sufficient every day\' on this grid: "
+      f"{best_all_time[\'solar_kw\']:.0f}kW + {best_all_time[\'battery_kwh\']:.1f}kWh reaches "
+      f"only {best_all_time[\'frac_fully_self_sufficient_days\']:.1%} of days at zero grid import "
+      f"(${best_all_time[\'total_annual\']:,.0f}/yr) -- \'all of the time\' is a much harder, more "
+f"expensive bar than 'most of the time' against real Vancouver winter solar output.")''')
 
 code('''fig, ax = plt.subplots(figsize=(7.5, 4.6))
 targets_plotted = [t for t, r in rows_self_suff if r is not None]

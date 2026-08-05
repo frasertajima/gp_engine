@@ -8,10 +8,10 @@ Real 8kW/13.5kWh illustrative system. Fit on one real training year (2016, 366 d
 real held-out 2017-2025 record (3,287 days, 9 years), BC Hydro's real tiered rate with the optional
 TOD layer and the real RS 2289 export credit.
 
-**Headline: every policy that pre-charges off-peak lands in a $485-$521/yr band (a $36 spread,
-7.4%), and the top three are within $5/yr of each other — about 1% of the bill, i.e. a tie.** The
-one large, robust effect is proactive off-peak pre-charging itself ($649/yr → $485-521/yr, a real
-$130-165/yr). Neither the GP forecast nor the soft-EM regime layer produces a difference this model
+**Headline: every policy that pre-charges off-peak lands in a $475-$509/yr band (a $34 spread,
+7.2%), and the top three are within $8/yr of each other — about 1% of the bill, i.e. a tie.** The
+one large, robust effect is proactive off-peak pre-charging itself ($638/yr → $475-509/yr, a real
+$129-163/yr). Neither the GP forecast nor the soft-EM regime layer produces a difference this model
 can resolve.
 
 > **An honest correction to the first re-run.** Earlier on 2026-08-05 this file reported that a
@@ -31,30 +31,30 @@ exist because the original four-method ladder could not distinguish "the model h
 model is structurally unable to do anything" (§5) — every fitted layer is now bracketed by a
 model-free control using strictly less information.
 
-| Method | $/yr | Grid import kWh/yr | Export kWh/yr | Self-suff. | What it consumes |
-|---|---|---|---|---|---|
-| 0 — naive reactive | 649 | 5,523 | 1,689 | 52.6% | nothing |
-| 1 — TOU always-full | 506 | 7,434 | 3,452 | 36.2% | clock only |
-| 0b — persistence *(ablation)* | 516 | 6,718 | 2,742 | 42.4% | yesterday's net load, **no model** |
-| 1b — calendar only *(ablation)* | 521 | 6,583 | 2,620 | 43.5% | **no data at all** |
-| 2 — GP forecast | 516 | 6,725 | 2,749 | 42.3% | fitted GP1D |
-| 4 — tier-threshold aware *(new)* | 515 | 6,742 | 2,834 | 42.2% | monthly running total |
-| 3 — GP + regime mixture | 489 | 7,093 | 3,165 | 39.1% | fitted GP1D + soft-EM GMM |
-| **3b — GP + constant reserve** | **485** | 6,931 | 2,981 | 40.5% | fitted GP1D |
-| 3c — model-free reference *(ablation)* | 490 | 6,781 | 2,839 | 41.8% | **no fitted model of any kind** |
+| Method | $/yr | What it consumes |
+|---|---|---|
+| 0 — naive reactive | 638 | nothing |
+| 1 — TOU always-full | 497 | clock only |
+| 0b — persistence *(ablation)* | 505 | yesterday's net load, **no model** |
+| 1b — calendar only *(ablation)* | 509 | **no data at all** |
+| 2 — GP forecast | 505 | fitted GP1D |
+| 4 — tier-threshold aware | 504 | monthly running total, **no model** |
+| 3 — GP + regime mixture | 483 | fitted GP1D + soft-EM GMM |
+| **3b — GP + constant reserve** | **475** | fitted GP1D |
+| 3c — model-free reference *(ablation)* | 479 | **no fitted model of any kind** |
 
-All eight proactive methods span **$485–$521/yr — a $36 (7.4%) band** — and the top three (3b $485,
-3 $489, 3c $490) span **$5**. Against a model whose own resolution is at best a few dollars a year,
+All eight proactive methods span **$475–$509/yr — a $34 (7.2%) band** — and the top three (3b $475,
+3c $479, 3 $483) span **$8**. Against a model whose own resolution is at best a few dollars a year,
 the top of this ladder is a tie, and this file now reports it as one rather than ranking within the
 noise.
 
 **Two things are large enough to be real**, and neither is a forecasting result:
-- **Proactive off-peak pre-charging: $649 → $485-521/yr ($130-165).** By far the dominant effect.
-- **A peak-window discharge reserve: another ~$25/yr** (compare 2 at $516 with 3b at $485, same
+- **Proactive off-peak pre-charging: $638 → $475-509/yr ($129-163).** By far the dominant effect.
+- **A peak-window discharge reserve: another ~$30/yr** (compare 2 at $505 with 3b at $475, same
   targets, reserve added).
 
 **A new effect the export credit created**: Method 1 (charge to full every night, no forecast) jumps
-from worst-of-the-smart-methods to $506/yr, beating both the GP and the calendar rule. With
+from worst-of-the-smart-methods to $497/yr, beating both the GP ($505) and the calendar rule ($509). With
 off-peak import at 5.97¢ and a flat 10¢ export credit, keeping the battery full and exporting all
 solar is a genuine arbitrage — the opposite of what the uncredited-export model implied. This is a
 direct, and somewhat uncomfortable, consequence of RS 2289's flat rate; see §6.
@@ -63,17 +63,17 @@ direct, and somewhat uncomfortable, consequence of RS 2289's flat rate; see §6.
 
 ## 2. Finding 1 — proactive off-peak pre-charging is worth ~$160/yr; forecasting adds ~1%
 
-Method 0 → 3b is $649 → $485/yr ($164). Almost none of that is forecast-driven:
+Method 0 → 3b is $638 → $475/yr ($163). Almost none of that is forecast-driven:
 
 | Comparison | Pre-export-credit | With export credit |
 |---|---|---|
-| Method 2 (fitted GP) vs 1b (calendar, **zero data**) | 624 vs 623 — calendar wins by $1 | 516 vs 521 — **GP wins by $5** |
-| 3b (GP + reserve) vs 3c (calendar + same reserve) | 616 vs 613 — calendar wins by $3 | 485 vs 490 — **GP wins by $5** |
+| Method 2 (fitted GP) vs 1b (calendar, **zero data**) | 624 vs 623 — calendar wins by $1 | 505 vs 509 — **GP wins by $4** |
+| 3b (GP + reserve) vs 3c (calendar + same reserve) | 616 vs 613 — calendar wins by $3 | 475 vs 479 — **GP wins by $4** |
 
 **This is a correction to what this file said earlier today.** With export valued at $0, a calendar
 rule genuinely beat the fitted GP and the write-up said so. Crediting export reverses the sign: the
-GP now wins both head-to-head comparisons by a consistent ~$5/yr. The consistency across two
-independent pairs makes it more credible than a single margin would be — but $5/yr is **~1% of the
+GP now wins both head-to-head comparisons by a consistent ~$4/yr. The consistency across two
+independent pairs makes it more credible than a single margin would be — but $4/yr is **<1% of the
 bill**, and the same "inside the model's resolution" standard applied to Phase 3's $7/yr margin
 applies here too.
 
@@ -115,13 +115,13 @@ It still does not help:
 
 | | Pre-export-credit | With export credit |
 |---|---|---|
-| 3 — reserve sized by P(stress) | 638 | 489 |
-| 3b — **constant** reserve, same 8.82 kWh mean | **616** | **485** |
-| regime layer's cost | **$22/yr worse** | **$4/yr worse** |
+| 3 — reserve sized by P(stress) | 638 | 483 |
+| 3b — **constant** reserve, same mean | **616** | **475** |
+| regime layer's cost | **$22/yr worse** | **$8/yr worse** |
 
 Allocating the *same average amount* of reserve by regime probability is worse than spreading it
-evenly — but crediting export shrinks that penalty from $22/yr to $4/yr, i.e. from a clear negative
-to **within noise**. The directional mechanism still makes sense: on the highest-demand days the
+evenly — but crediting export shrinks that penalty from $22/yr to $8/yr, i.e. from a clear negative
+to **borderline**. The directional mechanism still makes sense: on the highest-demand days the
 regime-sized reserve saturates at capacity, so the battery does not discharge before 4pm and the
 household imports at the standard rate all day, then can only return ~13.5 kWh into a five-hour
 window. Those days need battery energy *throughout*, not concentrated.
@@ -189,13 +189,13 @@ served) is swept in Phase 3 rather than trusted; see `RESULTS_PHASE3.md`.
 
 1. **Both rate structures are now scored as named alternatives.** Every method reports its bill under
    TOD opt-in *and* under the tiered-only default, and takes the cheaper — since BC Hydro's TOD layer
-   is genuinely optional. **TOD opt-in wins for all nine methods** ($485-649 vs $669-703), so the
+   is genuinely optional. **TOD opt-in wins for all nine methods** ($475-638 vs $669-701), so the
    earlier practice of always applying TOD was right; it just had never been demonstrated.
 2. **Method 4, a tier-threshold-aware policy**, the class `research/04` explicitly named and no
    method addressed: run the calendar rule but suppress off-peak pre-charging once the month's
    running consumption has already passed the 675 kWh Step 1 threshold (using only days strictly
-   before the decision day — no lookahead). **Result: $515/yr, mid-pack** — it beats the plain GP by
-   $1 and loses to the reserve-based methods by ~$30. Tier-threshold management is a real
+   before the decision day — no lookahead). **Result: $504/yr, mid-pack** — it edges the plain GP by
+   $1 and loses to the reserve-based methods by ~$29. Tier-threshold management is a real
    consideration for a household near the threshold, but at this household's consumption (~11,600
    kWh/yr, well above Step 1 every winter month) the threshold is crossed early enough that gating
    on it mostly just forgoes cheap off-peak energy.
@@ -203,7 +203,7 @@ served) is swept in Phase 3 rather than trusted; see `RESULTS_PHASE3.md`.
 ## 6. Unchanged caveats
 
 - **The top of the ladder is a statistical tie.** All eight proactive methods sit within $36/yr and
-  the top three within $5. Do not read the ordering among them as a finding; the robust results are the $160/yr
+  the top three within $8. Do not read the ordering among them as a finding; the robust results are the $160/yr
   value of off-peak pre-charging and the ~$25/yr value of a peak-window reserve.
 - **Method 1's new win is rate-structure-specific and slightly uncomfortable.** "Charge to full every
   night and export all your solar" beats forecasting because RS 2289's flat 10¢ export credit sits

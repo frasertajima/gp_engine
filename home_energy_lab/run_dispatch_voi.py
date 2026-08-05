@@ -44,36 +44,58 @@ from voi import SIGMA_PROBE2_DEFAULT, bayes_action_voi, probe_value  # noqa: E40
 
 import stress_classifier as sc
 from rate_model import STEP1_RATE, TOD_DISCOUNT, TOD_SURCHARGE
-from battery_sim import DEFAULT_CAPACITY_KWH
+from battery_sim import DEFAULT_CAPACITY_KWH, DEFAULT_ROUND_TRIP_EFF
 
 C_PROBE_DEFAULT = 0.15  # $, illustrative -- cost of an updated short-horizon forecast read, unsourced
 
+# M4 (CODE_REVIEW.md): this lab previously imported `voi.SIGMA_PROBE2_DEFAULT` unchanged.
+# That constant's own docstring says it was "tuned so Probe has a real (non-degenerate)
+# niche on this dataset's actual variance range (~0.08-0.38)" -- but that is the MINING
+# lab's variance range. This lab's GPC variance runs ~0.009-0.41, so the constant is set
+# locally here rather than inherited from another domain's tuning. The value is chosen as
+# the median posterior variance, i.e. a probe about as informative as the current
+# uncertainty -- a stated, domain-local choice rather than a borrowed one.
+SIGMA_PROBE2_LOCAL = 0.10
+
 
 def derive_dispatch_constants():
-    """(delta_kwh, c_drill, v_drill_gross) -- delta_kwh is this lab's own
-    real mean net-load gap between high-demand and normal days (capped at
-    the real battery capacity, the representative full protective
-    pre-charge). c_drill/v_drill_gross follow directly from BC Hydro's real
+    """(delta_kwh, c_drill, v_drill_gross, v_drill_residual) -- delta_kwh is
+    this lab's own real mean net-load gap between high-demand and normal
+    days (capped at the real battery capacity, the representative full
+    protective pre-charge). The rest follow directly from BC Hydro's real
     off-peak/peak effective rates, already used and verified in Phase 1 --
-    no new economic sourcing."""
+    no new economic sourcing.
+
+    **`v_drill_residual` is new (CODE_REVIEW.md M3).** The shared payoff
+    matrix was written for mining, where drilling a dry hole returns
+    nothing, so it scored the "waste" outcome as `-c_drill` -- a total loss.
+    That is wrong for this domain: if you pre-charge and the day turns out
+    normal, the stored energy is NOT destroyed. It still displaces load; you
+    have merely bought it earlier, at the same off-peak price you would have
+    paid anyway. The only genuine loss is the battery round-trip
+    inefficiency on that energy. So the retained value is
+    `delta_kwh * offpeak_rate * round_trip_eff`, making the true cost of a
+    wasted pre-charge `delta_kwh * offpeak_rate * (1 - round_trip_eff)` --
+    roughly an eleventh of what the mining-shaped matrix assumed.
+
+    The threshold used to split high/normal days is derived from the
+    training portion of a seeded split rather than the full pool, matching
+    `stress_classifier`'s own M2 fix."""
     from daily_agg import build_daily, TEST_YEARS
 
-    X, y, dates, thresh = sc.build_dataset()
-    daily = build_daily()
-    daily.index = daily.index.date
-    years = np.array([d.year for d in daily.index])
-    test_mask = (years >= TEST_YEARS[0]) & (years <= TEST_YEARS[1])
-    pool = daily.loc[test_mask]
-    net_load = pool["net_load_kwh"].values[1:]  # aligned with y
-    is_high = y.astype(bool)
-    delta_kwh = float(net_load[is_high].mean() - net_load[~is_high].mean())
+    X, y_raw, dates, thresh_full = sc.build_dataset()
+    # Use the same train-only threshold convention as stress_classifier (M2).
+    thresh = float(np.percentile(y_raw[: int(0.5 * len(y_raw))], sc.HIGH_DEMAND_PCTL))
+    is_high = y_raw >= thresh
+    delta_kwh = float(y_raw[is_high].mean() - y_raw[~is_high].mean())
     delta_kwh = min(max(delta_kwh, 0.0), DEFAULT_CAPACITY_KWH)
 
     offpeak_eff_rate = STEP1_RATE - TOD_DISCOUNT
     peak_eff_rate = STEP1_RATE + TOD_SURCHARGE
     c_drill = delta_kwh * offpeak_eff_rate
     v_drill_gross = delta_kwh * peak_eff_rate
-    return delta_kwh, c_drill, v_drill_gross
+    v_drill_residual = delta_kwh * offpeak_eff_rate * DEFAULT_ROUND_TRIP_EFF
+    return delta_kwh, c_drill, v_drill_gross, v_drill_residual
 
 
 def probe_niche_fraction(mean, var, V, sigma_probe2, c_probe):
@@ -85,17 +107,29 @@ def probe_niche_fraction(mean, var, V, sigma_probe2, c_probe):
     return float(np.mean(ev_probe > np.maximum(ev_skip, ev_drill)))
 
 
-def run(seed=0, c_probe=C_PROBE_DEFAULT, sigma_probe2=SIGMA_PROBE2_DEFAULT):
-    delta_kwh, c_drill, v_drill_gross = derive_dispatch_constants()
-    breakeven_p = c_drill / v_drill_gross
-    print(f"delta_kwh={delta_kwh:.2f}  c_drill=${c_drill:.4f}  v_drill_gross=${v_drill_gross:.4f}  "
-          f"breakeven P(high-demand)={breakeven_p:.4f}")
+def run(seed=0, c_probe=C_PROBE_DEFAULT, sigma_probe2=SIGMA_PROBE2_LOCAL):
+    delta_kwh, c_drill, v_drill_gross, v_drill_residual = derive_dispatch_constants()
+    net_drill_cost = c_drill - v_drill_residual
+    # Breakeven solves EV_drill(p) = 0 with V[drill,waste] = -net_drill_cost and
+    # V[drill,ore] = v_drill_gross - c_drill:
+    #     -(1-p)*net + p*(v_gross - c_drill) = 0  ->  p* = net / (net + v_gross - c_drill)
+    # NOT net/v_gross -- that shortcut is only valid in the residual=0 case, where it
+    # reduces to the familiar c_drill/v_gross. (Caught while sweeping: the naive form
+    # made every grid point above p=0.10 degenerate to never-drill.)
+    breakeven_p = net_drill_cost / (net_drill_cost + v_drill_gross - c_drill)
+    old_breakeven = c_drill / v_drill_gross
+    print(f"delta_kwh={delta_kwh:.2f}  c_drill=${c_drill:.4f}  "
+          f"residual=${v_drill_residual:.4f}  net cost of a wasted pre-charge="
+          f"${net_drill_cost:.4f}")
+    print(f"  breakeven P(high-demand)={breakeven_p:.4f}  "
+          f"(was {old_breakeven:.4f} under the mining-shaped total-loss payoff, M3)")
 
-    V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross)
-    X, y, dates, thresh = sc.build_dataset()
-    print(f"n_days={len(y)}  high-demand-days={int(y.sum())}  base_rate={y.mean():.4f}")
+    V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross,
+                                v_drill_residual=v_drill_residual)
+    X, y_raw, dates, thresh_full = sc.build_dataset()
+    print(f"n_days={len(y_raw)}")
 
-    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y, seed=seed)
+    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y_raw, seed=seed)
     print(f"classifier: ell={ell}  val AP={val_ap:.3f}  n_train={len(y_train)}  n_test={len(y_test)}")
 
     conditions = sc.all_conditions(gpc, svm, X_test)
@@ -118,7 +152,9 @@ def run(seed=0, c_probe=C_PROBE_DEFAULT, sigma_probe2=SIGMA_PROBE2_DEFAULT):
 
     out = dict(
         seed=seed, c_probe=c_probe, delta_kwh=delta_kwh, c_drill=c_drill,
-        v_drill_gross=v_drill_gross, sigma_probe2=sigma_probe2, breakeven_p_high_demand=breakeven_p,
+        v_drill_gross=v_drill_gross, v_drill_residual=v_drill_residual,
+        net_drill_cost=net_drill_cost, breakeven_p_under_old_total_loss_payoff=old_breakeven,
+        sigma_probe2=sigma_probe2, breakeven_p_high_demand=breakeven_p,
         n_train=len(y_train), n_test=len(y_test), n_high_demand_test=int(y_test.sum()),
         ell=ell, val_ap=val_ap, oracle_total_usd=float(oracle.sum()), conditions=results,
     )
@@ -134,6 +170,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--c-probe", type=float, default=C_PROBE_DEFAULT)
-    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_DEFAULT)
+    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_LOCAL)
     args = ap.parse_args()
     run(args.seed, args.c_probe, args.sigma_probe2)

@@ -8,8 +8,8 @@ A 2D (solar kW, battery kWh) grid search over real, practically-relevant system 
 total annualized cost (real BC Hydro rebate-adjusted capital cost + real annual grid $ under Method
 2's dispatch policy), scored against the real 2017-2025 Vancouver weather/load record.
 
-**Headline: the cost-minimizing system is still 4kW solar + NO battery ($1,254/yr) — but the margin
-over 6kW collapsed from $107/yr to $7/yr, so "4kW" is now effectively a tie with 6kW rather than a
+**Headline: the cost-minimizing system is still 4kW solar + NO battery ($1,234/yr) — but the margin
+over 6kW collapsed from $107/yr to $12/yr, so "4kW" is now effectively a tie with 6kW rather than a
 clear winner.** The no-battery half of the conclusion is unchanged and, if anything, more robust.
 
 ## Two real corrections this phase has now survived
@@ -40,27 +40,27 @@ determinative here for a second reason: accepting the BC Hydro solar rebate this
 
 | Solar | Battery | Capital $/yr | Grid $/yr | **Total $/yr** | Self-suff. | Export kWh/yr |
 |---|---|---|---|---|---|---|
-| 0 kW | 0 kWh | $0 | $1,489 | $1,489 | 0.0% | 0 |
-| 0 kW | 13.5 kWh | $1,333 | $1,370 | $2,703 | **−2.8%** | 0 |
-| **4 kW** | **0 kWh** | **$304** | **$950** | **$1,254** | 25.4% | 1,051 |
-| **6 kW** | **0 kWh** | $496 | $765 | **$1,261** | 30.4% | 2,476 |
-| 8 kW | 0 kWh | $728 | $662 | $1,390 | 33.7% | 4,108 |
-| 4 kW | 13.5 kWh | $1,512 | $795 | $2,307 | 29.9% | 137 |
-| 8 kW | 13.5 kWh *(Phase 1/2's reference)* | $2,323 | $391 | **$2,714** | 42.2% | 2,749 |
+| 0 kW | 0 kWh | $0 | $1,469 | $1,469 | 0.0% | 0 |
+| 0 kW | 13.5 kWh | $1,333 | $1,370 | $2,663 | **−2.8%** | 0 |
+| **4 kW** | **0 kWh** | **$304** | **$930** | **$1,234** | 25.6% | 1,051 |
+| **6 kW** | **0 kWh** | $496 | $749 | **$1,245** | 30.6% | 2,476 |
+| 8 kW | 0 kWh | $728 | $648 | $1,376 | 33.9% | 4,108 |
+| 4 kW | 13.5 kWh | $1,512 | $795 | $2,548 | 29.9% | 137 |
+| 8 kW | 13.5 kWh *(Phase 1/2's reference)* | $2,178 | $525 | **$2,703** | 41.2% | 2,924 |
 | 20 kW | 40.5 kWh | $5,994 | $240 | $6,235 | 59.6% | 12,677 |
 
 (full 32-row grid in `results_phase3.json`)
 
-**4kW/0kWh at $1,254/yr wins, with 6kW/0kWh at $1,261/yr essentially tied** — cheaper than doing
-nothing ($1,489/yr) and 49% cheaper than the 8kW/13.5kWh default used throughout Phases 1-2
-($2,714/yr). Every battery-inclusive combination still costs more than its solar-only counterpart at
+**4kW/0kWh at $1,234/yr wins, with 6kW/0kWh at $1,245/yr essentially tied ($12 apart)** — cheaper than doing
+nothing ($1,469/yr) and 49% cheaper than the 8kW/13.5kWh default used throughout Phases 1-2
+($2,703/yr). Every battery-inclusive combination still costs more than its solar-only counterpart at
 the same solar size, across the entire grid.
 
 **Battery specs were sourced from Tesla's own datasheet on 2026-08-05** (`CODE_REVIEW.md` H2,
 `research/09_battery_spec_primary_source.md`): amortization moved from 12 years to the warranted 10,
 charge power from 11.5 kW to the real 5 kW, round-trip efficiency to a derived 0.913, and capacity
 fade is now modelled. All four make batteries look worse, which is why the reference system rose
-from $2,457 to $2,714/yr while the battery-free optimum did not move at all.
+from $2,457 to $2,703/yr while the battery-free optimum did not move at all.
 
 ## Finding: the per-billing-cycle credit cap, not the credit rate, governs solar sizing
 
@@ -88,7 +88,7 @@ uncertainty: whether unused credit rolls forward is not stated on either BC Hydr
 
 0kW solar + 13.5kWh battery still shows **self-sufficiency of −2.8%** — the battery, cycling purely
 on grid arbitrage, *increases* total grid kWh purchased (round-trip losses on energy that has
-nowhere else to come from) while *reducing* the dollar bill ($1,370/yr vs $1,489/yr). Unaffected by
+nowhere else to come from) while *reducing* the dollar bill ($1,370/yr vs $1,469/yr). Unaffected by
 the export fix, since a solar-free system exports nothing. The starkest form of Phase 1's own
 finding that self-sufficiency and cost-effectiveness are different axes.
 
@@ -110,10 +110,10 @@ into the credit cap above. Total cost still rises monotonically past 6kW.
 
 | System | Old (export = $0) | New (RS 2289 credit) |
 |---|---|---|
-| 4 kW / 0 kWh | $1,359 *(old optimum)* | **$1,254** *(still optimum)* |
-| 6 kW / 0 kWh | $1,466 | $1,261 |
-| 8 kW / 0 kWh | $1,643 | $1,390 |
-| 8 kW / 13.5 kWh *(reference)* | $2,560 | $2,714 (after H2 battery specs) |
+| 4 kW / 0 kWh | $1,359 *(old optimum)* | **$1,234** *(still optimum)* |
+| 6 kW / 0 kWh | $1,466 | $1,245 |
+| 8 kW / 0 kWh | $1,643 | $1,376 |
+| 8 kW / 13.5 kWh *(reference)* | $2,560 | $2,703 (after H2 battery specs) |
 
 Every solar-only figure fell, larger systems fell furthest, and the 4kW-vs-6kW margin narrowed from
 $107/yr to $7/yr. Battery-inclusive figures ROSE, because H2's sourced battery specs (10-year
@@ -122,9 +122,18 @@ warranty amortization, 5 kW charge limit, modelled fade) all cut the other way. 
 keeps 4kW ahead, by an amount smaller than this model's own resolution. The honest statement is now
 "4-6kW of solar, no battery," not "4kW."
 
+## Also re-run for the M/L fixes (2026-08-05)
+
+The figures above already include `CODE_REVIEW.md`'s M and L items. The one that moved them is **L4**:
+BC Hydro's real off-peak window is **11pm-7am (8 hours)**, not the 7-hour same-calendar-day proxy
+(hours 0-6) this lab used to avoid midnight-spanning bookkeeping. `dispatch_sim.py` now credits
+hour-23 charging to the following day's plan — the night of day d serves day d+1 — so the real
+window is modelled directly. Every configuration got ~$10-20/yr cheaper (an eighth more cheap
+charging time) and nothing reordered.
+
 ## Risks / honest unknowns
 
-- **The 4kW-vs-6kW ordering is inside the model's noise.** A $7/yr difference on a $1,254/yr total
+- **The 4kW-vs-6kW ordering is inside the model's noise.** A $12/yr difference on a $1,234/yr total
   should not be read as a real preference; treat 4-6kW as one answer.
 - **Whether unused RS 2289 credit rolls forward is unresolved** and is now the largest single lever
   on this phase's result (see the forfeiture table above).
@@ -141,7 +150,7 @@ keeps 4kW ahead, by an amount smaller than this model's own resolution. The hone
   **Swept rather than trusted** — the optimum carries no battery at 100%, 90%, 80%, 70% and 60%
   retention alike (`results_phase3.json`'s `retention_sensitivity`), including the no-fade case, so
   the conclusion does not depend on it.
-- **The grid is coarse** (8×4 = 32 points); with 4kW and 6kW now $7 apart, a finer sweep between them
+- **The grid is coarse** (8×4 = 32 points); with 4kW and 6kW now $12 apart, a finer sweep between them
   would be the natural refinement.
 - **Dispatch policy is Method 2**, which Phase 1's re-run showed is beaten by ~$31/yr by the
   reserve-based methods. That applies near-uniformly across the grid and does not reorder it, but

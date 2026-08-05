@@ -21,16 +21,17 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from decision import ACTIONS, build_payoff_matrix_voi, oracle_value_2action, realized_value_with_probe  # noqa: E402
-from voi import SIGMA_PROBE2_DEFAULT, bayes_action_voi  # noqa: E402
+from voi import bayes_action_voi  # noqa: E402
 
 import stress_classifier as sc
-from run_dispatch_voi import C_PROBE_DEFAULT, derive_dispatch_constants, probe_niche_fraction
+from run_dispatch_voi import (C_PROBE_DEFAULT, SIGMA_PROBE2_LOCAL,
+                              derive_dispatch_constants, probe_niche_fraction)
 
 CONDITIONS = ("svm", "gpc_mean", "gpc_full")
 
 
-def run_one_seed(seed, X, y, V, c_probe, sigma_probe2):
-    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y, seed=seed)
+def run_one_seed(seed, X, y_raw, V, c_probe, sigma_probe2):
+    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y_raw, seed=seed)
     conditions = sc.all_conditions(gpc, svm, X_test)
     y_test_int = y_test.astype(np.int64)
     oracle = oracle_value_2action(y_test_int, V)
@@ -63,21 +64,26 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-seeds", type=int, default=200)
     ap.add_argument("--c-probe", type=float, default=C_PROBE_DEFAULT)
-    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_DEFAULT)
+    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_LOCAL)
     ap.add_argument("--out", type=str, default="results/bootstrap_dispatch_voi.json")
     args = ap.parse_args()
 
-    X, y, dates, thresh = sc.build_dataset()
-    delta_kwh, c_drill, v_drill_gross = derive_dispatch_constants()
-    V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross)
-    breakeven_p = c_drill / v_drill_gross
-    print(f"n_days={len(y)}  base_rate={y.mean():.4f}  breakeven P(high-demand)={breakeven_p:.4f}")
+    X, y_raw, dates, thresh_full = sc.build_dataset()
+    delta_kwh, c_drill, v_drill_gross, v_drill_residual = derive_dispatch_constants()
+    V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross,
+                               v_drill_residual=v_drill_residual)
+    # p* solves EV_drill(p) = 0 given V[drill,waste] = -(c_drill - residual):
+    #   p* = net / (net + v_gross - c_drill).  The shortcut net/v_gross is only
+    #   valid when residual = 0. See run_dispatch_voi / CODE_REVIEW.md M3.
+    _net = c_drill - v_drill_residual
+    breakeven_p = _net / (_net + v_drill_gross - c_drill)
+    print(f"n_days={len(y_raw)}  breakeven P(high-demand)={breakeven_p:.4f}")
 
     results = []
     t_start = time.time()
     for i in range(args.n_seeds):
         t0 = time.time()
-        r = run_one_seed(i, X, y, V, args.c_probe, args.sigma_probe2)
+        r = run_one_seed(i, X, y_raw, V, args.c_probe, args.sigma_probe2)
         dt = time.time() - t0
         elapsed = time.time() - t_start
         eta = elapsed / (i + 1) * (args.n_seeds - i - 1)

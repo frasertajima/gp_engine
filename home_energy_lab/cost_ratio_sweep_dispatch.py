@@ -18,24 +18,37 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from decision import ACTIONS, build_payoff_matrix_voi, oracle_value_2action, realized_value_with_probe  # noqa: E402
-from voi import SIGMA_PROBE2_DEFAULT, bayes_action_voi  # noqa: E402
+from voi import bayes_action_voi  # noqa: E402
 
 import stress_classifier as sc
-from run_dispatch_voi import C_PROBE_DEFAULT, derive_dispatch_constants
+from run_dispatch_voi import C_PROBE_DEFAULT, SIGMA_PROBE2_LOCAL, derive_dispatch_constants
 
 CONDITIONS = ("svm", "gpc_mean", "gpc_full")
-BREAKEVEN_P_GRID = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.3738, 0.45, 0.55, 0.65, 0.75, 0.90]
+# 0.0495 is this lab's own derived breakeven under the corrected payoff (M3);
+# 0.3738 was the derived value under the old mining-shaped total-loss payoff and is
+# kept on the grid so the two regimes can be compared directly.
+BREAKEVEN_P_GRID = [0.0495, 0.10, 0.15, 0.20, 0.25, 0.30, 0.3738, 0.45,
+                    0.55, 0.65, 0.75, 0.90]
 
 
-def run_one_seed(seed, X, y, c_drill, breakeven_grid, c_probe, sigma_probe2):
-    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y, seed=seed)
+def run_one_seed(seed, X, y_raw, c_drill, v_drill_residual, breakeven_grid, c_probe, sigma_probe2):
+    gpc, svm, X_train, y_train, X_test, y_test, ell, val_ap = sc.fit_classifier(X, y_raw, seed=seed)
     conditions = sc.all_conditions(gpc, svm, X_test)
     y_test_int = y_test.astype(np.int64)
 
     per_sweep = []
+    # The breakeven probability is set by the NET cost of a wasted pre-charge
+    # (c_drill minus the value retained when the day turns out normal), not by the
+    # gross charging cost -- see CODE_REVIEW.md M3. Inverting on the net cost keeps
+    # each grid point's label ("breakeven_p") the probability it actually is.
+    net_drill_cost = c_drill - v_drill_residual
     for breakeven_p in breakeven_grid:
-        v_drill_gross = c_drill / breakeven_p
-        V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross)
+        # Invert p* = net / (net + v_gross - c_drill) for v_gross. Using the
+        # residual=0 shortcut (net/p*) here made drilling negative-EV in BOTH states
+        # for every p* >= 0.10, collapsing the whole sweep to a never-drill $0.
+        v_drill_gross = c_drill + net_drill_cost * (1.0 - breakeven_p) / breakeven_p
+        V = build_payoff_matrix_voi(c_drill=c_drill, v_drill_gross=v_drill_gross,
+                                    v_drill_residual=v_drill_residual)
         oracle = oracle_value_2action(y_test_int, V)
         row = {"breakeven_p": breakeven_p, "oracle_total": float(oracle.sum())}
         for name, (p_now, mean, var) in conditions.items():
@@ -62,19 +75,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-seeds", type=int, default=200)
     ap.add_argument("--c-probe", type=float, default=C_PROBE_DEFAULT)
-    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_DEFAULT)
+    ap.add_argument("--sigma-probe2", type=float, default=SIGMA_PROBE2_LOCAL)
     ap.add_argument("--out", type=str, default="results/cost_ratio_sweep_dispatch.json")
     args = ap.parse_args()
 
-    X, y, dates, thresh = sc.build_dataset()
-    delta_kwh, c_drill, v_drill_gross_derived = derive_dispatch_constants()
-    print(f"n_days={len(y)}  base_rate={y.mean():.4f}  c_drill=${c_drill:.4f} (fixed across sweep)")
+    X, y_raw, dates, thresh_full = sc.build_dataset()
+    delta_kwh, c_drill, v_drill_gross_derived, v_drill_residual = derive_dispatch_constants()
+    print(f"n_days={len(y_raw)}  c_drill=${c_drill:.4f}  residual=${v_drill_residual:.4f}  "
+          f"net cost of a wasted pre-charge=${c_drill - v_drill_residual:.4f} (fixed across sweep)")
 
     results = []
     t_start = time.time()
     for i in range(args.n_seeds):
         t0 = time.time()
-        r = run_one_seed(i, X, y, c_drill, BREAKEVEN_P_GRID, args.c_probe, args.sigma_probe2)
+        r = run_one_seed(i, X, y_raw, c_drill, v_drill_residual, BREAKEVEN_P_GRID,
+                         args.c_probe, args.sigma_probe2)
         dt = time.time() - t0
         elapsed = time.time() - t_start
         eta = elapsed / (i + 1) * (args.n_seeds - i - 1)

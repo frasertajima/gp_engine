@@ -3,13 +3,17 @@
 simple time-varying price, with an optional Time-of-Day (TOD) adjustment
 layered on top -- both real, current (2026), sourced.
 
-**A documented simplification of the real TOD window, stated plainly**: BC
-Hydro's actual off-peak window is 11pm-7am, spanning midnight into the next
-calendar day. This module uses hours 0-6 (7 hours) of the SAME calendar day
-as "off-peak" instead -- a deliberate simplification to avoid midnight-
-spanning bookkeeping in the daily dispatch-decision loop (`dispatch_sim.py`),
-not a claim about the real window's exact boundaries. Peak (4-9pm) is
-represented as hours 16-20, matching the real window directly.
+**The TOD window is now the real one (CODE_REVIEW.md L4, fixed 2026-08-05).**
+BC Hydro's actual off-peak window is 11pm-7am -- 8 hours, spanning midnight
+into the next calendar day. This module previously used hours 0-6 of the
+same calendar day (7 hours), a deliberate simplification to avoid
+midnight-spanning bookkeeping in the daily dispatch-decision loop. That
+made hour 23 pay the standard rate and gave every pre-charging policy 12.5%
+less time to charge than reality allows. `dispatch_sim.py` now handles the
+midnight crossing directly -- charging during hour 23 is credited to the
+FOLLOWING day's target, since the night of day d serves day d+1 -- so the
+simplification is no longer needed. Peak (4-9pm) is hours 16-20, matching
+the real window directly.
 """
 
 import numpy as np
@@ -19,7 +23,7 @@ STEP1_RATE = 0.1097   # $/kWh
 STEP2_RATE = 0.1408   # $/kWh
 BASIC_CHARGE_PER_MONTH = 6.17  # $
 
-TOD_DISCOUNT = 0.05  # $/kWh, off-peak (11pm-7am, approximated as hours 0-6)
+TOD_DISCOUNT = 0.05  # $/kWh, off-peak (11pm-7am -- the real 8-hour window)
 TOD_SURCHARGE = 0.05  # $/kWh, peak (4-9pm, hours 16-20)
 
 # Real export compensation under BC Hydro's Self-Generation Service Rate (RS 2289),
@@ -31,7 +35,7 @@ TOD_SURCHARGE = 0.05  # $/kWh, peak (4-9pm, hours 16-20)
 # forces the transition to RS 2289 -- the two assumptions are consistent only here.
 EXPORT_CREDIT_PER_KWH = 0.10
 
-OFFPEAK_HOURS = set(range(0, 7))   # simplified same-day proxy, see module docstring
+OFFPEAK_HOURS = {23} | set(range(0, 7))   # real 11pm-7am window, see module docstring
 PEAK_HOURS = set(range(16, 21))
 
 

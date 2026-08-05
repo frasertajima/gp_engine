@@ -1,11 +1,16 @@
 # Phase 2 — sequential-VoI skip/probe/drill dispatch layer
 
-**Status: DONE (2026-08-04).** Fifth application of the same sequential-VoI mechanism this codebase
+**Status: DONE (2026-08-04), RE-RUN 2026-08-05** after `CODE_REVIEW.md` M2/M3/M4 (label-threshold
+leakage, a mining-shaped drill payoff, and a probe-noise constant inherited from another lab). **All
+three headline conclusions survived, and the evidence for them got stronger** — see "What the M/L
+fixes changed" below. Fifth application of the same sequential-VoI mechanism this codebase
 has now built five times (`grid_reserve_lab`'s Phase 4, `shm_lab`'s Phase 2, `hydro_reserve_lab`'s
 Phase 2, `climate_cat_lab`'s Phase 3, now this lab).
 
-**Headline: GPC's calibrated mean robustly beats SVM — posterior variance adds nothing on top,
-across the entire cost-ratio range tested.** A clean, unambiguous null result for the
+**Headline (unchanged, now on corrected economics): GPC's calibrated mean robustly beats SVM —
+posterior variance adds nothing on top, across the entire cost-ratio range tested.** 200 seeds:
+**gpc_mean − svm = +$29.80 [29.19, 30.40]**, **gpc_full − gpc_mean = −$0.05 [−0.12, +0.03]**, and the
+**probe niche fraction is exactly 0.0000** at every breakeven from 0.05 to 0.90. A clean, unambiguous null result for the
 variance-specific mechanism, closest in shape to `shm_lab`'s own finding, on a genuinely different
 kind of problem (a personal-scale, real-data dispatch decision, not a classification-only lab).
 
@@ -108,3 +113,57 @@ independent layers of this lab (Phase 1's regime-mixture, Phase 2's VoI variance
   discrepancy noted in `research/04_vancouver_real_calibration_case.md`).
 - **The GPC-mean-vs-SVM sign flip at breakeven 0.55-0.65 is reported, not explained** — a real
   pattern in this specific real dataset, not chased further this phase.
+
+
+---
+
+## What the M/L fixes changed (2026-08-05)
+
+Three `CODE_REVIEW.md` findings touched this phase. None reversed a conclusion; two materially
+improved the evidence.
+
+**M2 — label-threshold leakage.** The high-demand threshold was computed over the whole pool and
+only then split into train/val/test, so the label definition carried a scalar of test information.
+It is now derived from the training split alone and applied to all three splits (the split is
+consequently unstratified; measured class balance stays within a point of 25% across seeds). Test AP
+is unchanged at ≈0.82 — the leak was real but immaterial, which is worth recording either way.
+
+**M3 — the drill payoff was mining-shaped, and this domain is not mining.** The shared matrix scored
+a wasted "drill" as `-c_drill`, a total loss. That is right for a dry borehole and wrong for a
+pre-charged battery: if the day turns out normal the energy is not destroyed, it is merely bought
+earlier at the same off-peak price. **Only the round-trip loss is truly forfeited** — $0.07, not
+$0.81, for a 13.5 kWh pre-charge. `decision.build_payoff_matrix_voi` gained an optional
+`v_drill_residual` (default 0.0, so the other five VoI labs are bit-identical) and this lab passes
+the real retained value. The derived breakeven moves **0.3738 → 0.0495**.
+
+*A real error of mine, caught by the sweep and worth recording.* The first version of this fix
+inverted the breakeven as `net_cost / v_gross`. That shortcut is only valid when the residual is
+zero; with a residual, `p* = net / (net + v_gross − c_drill)`. The wrong form made drilling
+negative-EV in *both* states for every grid point at or above p=0.10, collapsing the entire sweep to
+a uniform $0.00. The all-zeros column is what exposed it — a degenerate result read as a finding
+would have been exactly the failure mode this whole review was about.
+
+**M4 — probe noise was another lab's constant.** `voi.SIGMA_PROBE2_DEFAULT` is documented as "tuned
+... on this dataset's actual variance range (~0.08-0.38)" — the *mining* dataset's. This lab's GPC
+variance runs ~0.009-0.41, so `SIGMA_PROBE2_LOCAL = 0.10` is now set here, as a stated domain-local
+choice. The probe niche remains exactly 0.0000, consistent with the earlier σ²×c_probe sweep in
+which even a noiseless probe reached only 3.3% of days.
+
+### Full breakeven sweep, 200 seeds, corrected payoff
+
+| breakeven p | svm | gpc_mean | gpc_full | full − svm | full − mean |
+|---|---|---|---|---|---|
+| **0.0495** *(derived)* | $227.88 | $257.67 | $257.62 | **+$29.74 [29.14, 30.33]** | −$0.06 [−0.13, +0.03] |
+| 0.10 | 109.68 | 113.52 | 113.48 | +3.81 [3.46, 4.15] | −0.04 |
+| 0.20 | 43.16 | 44.44 | 44.44 | +1.28 [1.08, 1.48] | −0.01 |
+| 0.30 | 22.06 | 22.94 | 22.93 | +0.87 [0.75, 1.00] | −0.01 |
+| 0.3738 *(old derived)* | 14.05 | 14.60 | 14.60 | +0.55 [0.46, 0.63] | −0.01 |
+| 0.45 | 8.98 | 9.19 | 9.19 | +0.21 [0.14, 0.27] | −0.00 |
+| 0.55 | 4.82 | 4.60 | 4.60 | −0.22 [−0.26, −0.18] | +0.00 |
+| 0.75 | 0.55 | 0.64 | 0.64 | +0.09 [0.05, 0.13] | −0.01 |
+| 0.90 | −0.02 | 0.01 | 0.01 | +0.03 [0.01, 0.04] | −0.00 |
+
+GPC-mean beats SVM at every breakeven except a narrow 0.55-0.65 band where the ordering reverses by
+cents. **`full − mean` never leaves ±$0.06 anywhere on the grid** — the variance-specific mechanism
+is worth nothing, which is this phase's actual finding and is now demonstrated on economics that are
+both physically correct and non-degenerate.

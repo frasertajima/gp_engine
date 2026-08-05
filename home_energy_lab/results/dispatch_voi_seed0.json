@@ -4,43 +4,46 @@
   "delta_kwh": 13.5,
   "c_drill": 0.80595,
   "v_drill_gross": 2.1559500000000003,
-  "sigma_probe2": 0.15,
-  "breakeven_p_high_demand": 0.37382592360676264,
+  "v_drill_residual": 0.7356876923076924,
+  "net_drill_cost": 0.07026230769230768,
+  "breakeven_p_under_old_total_loss_payoff": 0.37382592360676264,
+  "sigma_probe2": 0.1,
+  "breakeven_p_high_demand": 0.049471359840896116,
   "n_train": 1643,
   "n_test": 822,
-  "n_high_demand_test": 205,
-  "ell": 1.0,
-  "val_ap": 0.7983222050538609,
-  "oracle_total_usd": 276.75,
+  "n_high_demand_test": 225,
+  "ell": 2.0,
+  "val_ap": 0.8020762142132016,
+  "oracle_total_usd": 303.75,
   "conditions": {
     "svm": {
       "action_distribution": {
-        "skip": 597,
+        "skip": 84,
         "probe": 0,
-        "drill": 225
+        "drill": 738
       },
-      "realized_total_usd": 174.393,
-      "regret_total_usd": 102.35700000000001,
+      "realized_total_usd": 254.9230753846154,
+      "regret_total_usd": 48.82692461538461,
       "probe_niche_fraction": 0.0
     },
     "gpc_mean": {
       "action_distribution": {
-        "skip": 559,
+        "skip": 398,
         "probe": 0,
-        "drill": 263
+        "drill": 424
       },
-      "realized_total_usd": 182.574,
-      "regret_total_usd": 94.17600000000002,
+      "realized_total_usd": 284.08675153846156,
+      "regret_total_usd": 19.66324846153846,
       "probe_niche_fraction": 0.0
     },
     "gpc_full": {
       "action_distribution": {
-        "skip": 559,
+        "skip": 396,
         "probe": 0,
-        "drill": 263
+        "drill": 426
       },
-      "realized_total_usd": 182.574,
-      "regret_total_usd": 94.17600000000002,
+      "realized_total_usd": 283.94622692307695,
+      "regret_total_usd": 19.803773076923076,
       "probe_niche_fraction": 0.0
     }
   }

@@ -17,6 +17,8 @@ validated module, extend around it" posture as every other multi-phase lab
 in this codebase.
 """
 
+import datetime as _dt
+
 import numpy as np
 
 from battery_sim import (DEFAULT_CAPACITY_KWH, DEFAULT_MAX_POWER_KW, DEFAULT_ROUND_TRIP_EFF,
@@ -29,7 +31,14 @@ from rate_model import OFFPEAK_HOURS, PEAK_HOURS
 # for the peak window saves STEP1_RATE + TOD_SURCHARGE. A reserve floor here is
 # therefore the one lever a stress-aware layer still has once the overnight
 # charge target has saturated at battery capacity -- see CODE_REVIEW.md C1.
-RESERVE_HOURS = frozenset(h for h in range(24) if h not in OFFPEAK_HOURS and h < min(PEAK_HOURS))
+RESERVE_HOURS = frozenset(h for h in range(24)
+                          if h not in OFFPEAK_HOURS and h < min(PEAK_HOURS))
+
+# The off-peak window spans midnight (11pm-7am). Charging done during the 11pm hour
+# belongs to the NEXT calendar day's plan -- the night of day d serves day d+1 -- so
+# that hour looks up tomorrow's target/reserve. Avoiding this one-line bookkeeping was
+# the stated reason the window used to be truncated to 7 hours (CODE_REVIEW.md L4).
+_PRE_MIDNIGHT_OFFPEAK_HOURS = frozenset(h for h in OFFPEAK_HOURS if h >= 12)
 
 
 def simulate_with_targets(solar_kw, load_kw, timestamps, daily_target_kwh, tod_aware=True,
@@ -75,6 +84,7 @@ def simulate_with_targets(solar_kw, load_kw, timestamps, daily_target_kwh, tod_a
     one_way_eff = np.sqrt(round_trip_eff)
     hours = timestamps.hour.values
     dates = timestamps.date
+    _one_day = _dt.timedelta(days=1)
     if daily_reserve_kwh is None:
         daily_reserve_kwh = {}
     if max_charge_kw is None:
@@ -107,8 +117,10 @@ def simulate_with_targets(solar_kw, load_kw, timestamps, daily_target_kwh, tod_a
                 ac_side_charge_kwh = actual_charge_kwh / one_way_eff if one_way_eff else 0.0
                 grid_export[t] += max(net_kw * dt_h - ac_side_charge_kwh, 0.0)
 
-            # Proactive top-up toward today's target, ON TOP of serving this hour's load above.
-            target = min(daily_target_kwh.get(dates[t], 0.0), capacity_kwh)
+            # Proactive top-up toward the target for the day this night SERVES, ON TOP of
+            # serving this hour's load above. Hours 0-6 serve today; hour 23 serves tomorrow.
+            plan_date = dates[t] + _one_day if hours[t] in _PRE_MIDNIGHT_OFFPEAK_HOURS else dates[t]
+            target = min(daily_target_kwh.get(plan_date, 0.0), capacity_kwh)
             if level < target:
                 room_kwh = target - level
                 max_chargeable_kwh = max_charge_kw * dt_h * one_way_eff
