@@ -1,0 +1,47 @@
+{
+  "seed": 0,
+  "c_probe": 0.15,
+  "delta_kwh": 13.5,
+  "c_drill": 0.80595,
+  "v_drill_gross": 2.1559500000000003,
+  "sigma_probe2": 0.15,
+  "breakeven_p_high_demand": 0.37382592360676264,
+  "n_train": 1643,
+  "n_test": 822,
+  "n_high_demand_test": 205,
+  "ell": 1.0,
+  "val_ap": 0.7983222050538609,
+  "oracle_total_usd": 276.75,
+  "conditions": {
+    "svm": {
+      "action_distribution": {
+        "skip": 597,
+        "probe": 0,
+        "drill": 225
+      },
+      "realized_total_usd": 174.393,
+      "regret_total_usd": 102.35700000000001,
+      "probe_niche_fraction": 0.0
+    },
+    "gpc_mean": {
+      "action_distribution": {
+        "skip": 559,
+        "probe": 0,
+        "drill": 263
+      },
+      "realized_total_usd": 182.574,
+      "regret_total_usd": 94.17600000000002,
+      "probe_niche_fraction": 0.0
+    },
+    "gpc_full": {
+      "action_distribution": {
+        "skip": 559,
+        "probe": 0,
+        "drill": 263
+      },
+      "realized_total_usd": 182.574,
+      "regret_total_usd": 94.17600000000002,
+      "probe_niche_fraction": 0.0
+    }
+  }
+}

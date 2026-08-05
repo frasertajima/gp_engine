@@ -1,0 +1,101 @@
+{
+  "0_naive_reactive": {
+    "total_cost_usd": 5845.268120471256,
+    "total_cost_usd_per_year": 649.4742356079173,
+    "cost_tod_optin_usd_per_year": 649.4742356079173,
+    "cost_tiered_only_usd_per_year": 668.7461620579511,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 49704.48700189057,
+    "total_grid_export_kwh": 15202.12677697388,
+    "self_sufficiency": 0.526141022589167,
+    "proactive_charge_kwh_per_year": 0.0
+  },
+  "0b_persistence_no_model": {
+    "total_cost_usd": 4642.923932658155,
+    "total_cost_usd_per_year": 515.8804369620171,
+    "cost_tod_optin_usd_per_year": 515.8804369620171,
+    "cost_tiered_only_usd_per_year": 698.7482876701719,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 60462.94315423026,
+    "total_grid_export_kwh": 24681.38106846771,
+    "self_sufficiency": 0.42357501017517585,
+    "proactive_charge_kwh_per_year": 2683.605789675417
+  },
+  "1_tou_always_full": {
+    "total_cost_usd": 4555.721193350465,
+    "total_cost_usd_per_year": 506.19124370560723,
+    "cost_tod_optin_usd_per_year": 506.19124370560723,
+    "cost_tiered_only_usd_per_year": 702.3721787505993,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 66909.76597352007,
+    "total_grid_export_kwh": 31064.06093887157,
+    "self_sufficiency": 0.3621140626236742,
+    "proactive_charge_kwh_per_year": 3474.543259150092
+  },
+  "1b_calendar_only": {
+    "total_cost_usd": 4689.752825008294,
+    "total_cost_usd_per_year": 521.0836472231438,
+    "cost_tod_optin_usd_per_year": 521.0836472231438,
+    "cost_tiered_only_usd_per_year": 697.2996543334636,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 59249.04095185088,
+    "total_grid_export_kwh": 23583.488155796877,
+    "self_sufficiency": 0.4351477773636667,
+    "proactive_charge_kwh_per_year": 2413.76271118802
+  },
+  "2_gp_forecast": {
+    "total_cost_usd": 4640.38902909722,
+    "total_cost_usd_per_year": 515.5987810108022,
+    "cost_tod_optin_usd_per_year": 515.5987810108022,
+    "cost_tiered_only_usd_per_year": 698.8308985172794,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 60521.51654152584,
+    "total_grid_export_kwh": 24737.712465584653,
+    "self_sufficiency": 0.4230165993136713,
+    "proactive_charge_kwh_per_year": 2692.7222722624797
+  },
+  "3_gp_regime_mixture": {
+    "total_cost_usd": 4401.889272360222,
+    "total_cost_usd_per_year": 489.09880804002466,
+    "cost_tod_optin_usd_per_year": 489.09880804002466,
+    "cost_tiered_only_usd_per_year": 702.6645050962229,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 63838.9139493659,
+    "total_grid_export_kwh": 28487.97653741119,
+    "self_sufficiency": 0.39139010765941373,
+    "proactive_charge_kwh_per_year": 2557.725473201638
+  },
+  "3b_gp_constant_reserve": {
+    "total_cost_usd": 4366.297600107333,
+    "total_cost_usd_per_year": 485.1441777897037,
+    "cost_tod_optin_usd_per_year": 485.1441777897037,
+    "cost_tiered_only_usd_per_year": 698.7890026775812,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 62374.78221006803,
+    "total_grid_export_kwh": 26827.16583132676,
+    "self_sufficiency": 0.4053484444339598,
+    "proactive_charge_kwh_per_year": 2623.8602216979907
+  },
+  "3c_model_free_reference": {
+    "total_cost_usd": 4412.098714592523,
+    "total_cost_usd_per_year": 490.23319051028034,
+    "cost_tod_optin_usd_per_year": 490.23319051028034,
+    "cost_tiered_only_usd_per_year": 697.4074408273194,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 61033.41929391787,
+    "total_grid_export_kwh": 25555.050221005175,
+    "self_sufficiency": 0.41813636154413036,
+    "proactive_charge_kwh_per_year": 2394.2576725996946
+  },
+  "4_tier_threshold_aware": {
+    "total_cost_usd": 4638.176337498859,
+    "total_cost_usd_per_year": 515.3529263887621,
+    "cost_tod_optin_usd_per_year": 515.3529263887621,
+    "cost_tiered_only_usd_per_year": 692.4153666717731,
+    "rate_election": "tod_optin",
+    "total_grid_import_kwh": 60678.865837160614,
+    "total_grid_export_kwh": 25503.6546270322,
+    "self_sufficiency": 0.4215165058447864,
+    "proactive_charge_kwh_per_year": 2002.169382792672
+  }
+}

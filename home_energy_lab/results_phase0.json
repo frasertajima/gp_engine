@@ -1,0 +1,26 @@
+{
+  "n_days": 3653,
+  "solar_nameplate_kw": 8.0,
+  "annual_solar_kwh": 7988.88768,
+  "annual_load_kwh": 11629.777528486153,
+  "seasonal_shape": {
+    "summer_solar_kwh_day": 38.65141448028674,
+    "winter_solar_kwh_day": 6.923149189558875,
+    "winter_load_kwh_day": 37.61180275287078,
+    "summer_load_kwh_day": 26.089052023466223
+  },
+  "stress_regime_check": {
+    "low_solar_threshold_kwh_day": 7.257600000000001,
+    "high_heat_threshold_degree_days": 12.45,
+    "p_low_solar": 0.25020531070353136,
+    "p_high_heat": 0.25020531070353136,
+    "p_both_observed": 0.11141527511634274,
+    "p_both_if_independent": 0.06260269750425067,
+    "excess_ratio_vs_independence": 1.7797200369645052
+  },
+  "persistence_check": {
+    "p_stress_marginal": 0.11141527511634274,
+    "p_stress_tomorrow_given_stress_today": 0.5024630541871922,
+    "persistence_ratio": 4.50982195809782
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "grid": [
+    {
+      "solar_kw": 0.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 0.0,
+      "grid_annual_usd": 1488.8725174833598,
+      "total_annual_usd": 1488.8725174833598,
+      "self_sufficiency": 0.0,
+      "export_kwh_per_year": 0.0,
+      "solar_net_cost_usd": 0.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 0.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 1599.75,
+      "grid_annual_usd": 1382.0014730313897,
+      "total_annual_usd": 2981.7514730313897,
+      "self_sufficiency": -0.02108025984939199,
+      "export_kwh_per_year": 0.0,
+      "solar_net_cost_usd": 0.0,
+      "battery_net_cost_usd": 15997.5
+    },
+    {
+      "solar_kw": 0.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 3199.5,
+      "grid_annual_usd": 1245.7671842316358,
+      "total_annual_usd": 4445.267184231636,
+      "self_sufficiency": -0.035640773219764554,
+      "export_kwh_per_year": 0.0,
+      "solar_net_cost_usd": 0.0,
+      "battery_net_cost_usd": 31995.0
+    },
+    {
+      "solar_kw": 0.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 4799.25,
+      "grid_annual_usd": 1206.727782220433,
+      "total_annual_usd": 6005.977782220433,
+      "self_sufficiency": -0.040696322805084284,
+      "export_kwh_per_year": 0.0,
+      "solar_net_cost_usd": 0.0,
+      "battery_net_cost_usd": 47992.5
+    },
+    {
+      "solar_kw": 4.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 304.0,
+      "grid_annual_usd": 949.8130118702312,
+      "total_annual_usd": 1253.813011870231,
+      "self_sufficiency": 0.25437098741769015,
+      "export_kwh_per_year": 1051.0254082871795,
+      "solar_net_cost_usd": 7600.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 4.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 1753.75,
+      "grid_annual_usd": 813.2849030774419,
+      "total_annual_usd": 2567.034903077442,
+      "self_sufficiency": 0.30457426811068244,
+      "export_kwh_per_year": 156.00229084310774,
+      "solar_net_cost_usd": 7600.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 4.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 3353.5,
+      "grid_annual_usd": 684.6611017478502,
+      "total_annual_usd": 4038.1611017478504,
+      "self_sufficiency": 0.29601624850307073,
+      "export_kwh_per_year": 94.02765483087452,
+      "solar_net_cost_usd": 7600.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 4.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 4953.25,
+      "grid_annual_usd": 664.7105971693834,
+      "total_annual_usd": 5617.960597169384,
+      "self_sufficiency": 0.2953184411078611,
+      "export_kwh_per_year": 62.93015383430122,
+      "solar_net_cost_usd": 7600.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 6.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 496.0,
+      "grid_annual_usd": 765.0167331540146,
+      "total_annual_usd": 1261.0167331540147,
+      "self_sufficiency": 0.30435400883442687,
+      "export_kwh_per_year": 2476.315721729915,
+      "solar_net_cost_usd": 12400.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 6.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 1945.75,
+      "grid_annual_usd": 636.0498066566407,
+      "total_annual_usd": 2581.7998066566406,
+      "self_sufficiency": 0.3802855809037411,
+      "export_kwh_per_year": 1266.9757070886149,
+      "solar_net_cost_usd": 12400.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 6.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 3545.5,
+      "grid_annual_usd": 524.9235341021208,
+      "total_annual_usd": 4070.423534102121,
+      "self_sufficiency": 0.3805846755153587,
+      "export_kwh_per_year": 1115.989658033993,
+      "solar_net_cost_usd": 12400.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 6.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 5145.25,
+      "grid_annual_usd": 511.27939332520083,
+      "total_annual_usd": 5656.5293933252005,
+      "self_sufficiency": 0.3861647284175903,
+      "export_kwh_per_year": 1021.0354071987535,
+      "solar_net_cost_usd": 12400.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 8.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 728.0,
+      "grid_annual_usd": 662.1604631984791,
+      "total_annual_usd": 1390.1604631984792,
+      "self_sufficiency": 0.33664392461982406,
+      "export_kwh_per_year": 4107.815238238177,
+      "solar_net_cost_usd": 18200.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 8.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 2177.75,
+      "grid_annual_usd": 535.8829754969146,
+      "total_annual_usd": 2713.6329754969147,
+      "self_sufficiency": 0.42157792793588966,
+      "export_kwh_per_year": 2794.0080475481614,
+      "solar_net_cost_usd": 18200.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 8.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 3777.5,
+      "grid_annual_usd": 442.87144336062426,
+      "total_annual_usd": 4220.371443360625,
+      "self_sufficiency": 0.4296180012113917,
+      "export_kwh_per_year": 2570.9053189228966,
+      "solar_net_cost_usd": 18200.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 8.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 5377.25,
+      "grid_annual_usd": 433.95607362639345,
+      "total_annual_usd": 5811.206073626394,
+      "self_sufficiency": 0.4407300239650819,
+      "export_kwh_per_year": 2417.220771124652,
+      "solar_net_cost_usd": 18200.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 10.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 960.0,
+      "grid_annual_usd": 585.7007761261356,
+      "total_annual_usd": 1545.7007761261357,
+      "self_sufficiency": 0.3595601535344034,
+      "export_kwh_per_year": 5848.562986215384,
+      "solar_net_cost_usd": 24000.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 10.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 2409.75,
+      "grid_annual_usd": 465.5723421103216,
+      "total_annual_usd": 2875.3223421103216,
+      "self_sufficiency": 0.45013311955021096,
+      "export_kwh_per_year": 4469.668687982091,
+      "solar_net_cost_usd": 24000.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 10.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 4009.5,
+      "grid_annual_usd": 388.54860572845513,
+      "total_annual_usd": 4398.048605728455,
+      "self_sufficiency": 0.46316348194722523,
+      "export_kwh_per_year": 4205.044260978484,
+      "solar_net_cost_usd": 24000.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 10.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 5609.25,
+      "grid_annual_usd": 382.4914056249763,
+      "total_annual_usd": 5991.741405624976,
+      "self_sufficiency": 0.47946263885280993,
+      "export_kwh_per_year": 3994.462407824207,
+      "solar_net_cost_usd": 24000.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 12.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 1192.0,
+      "grid_annual_usd": 528.8968460769596,
+      "total_annual_usd": 1720.8968460769597,
+      "self_sufficiency": 0.3771452998804129,
+      "export_kwh_per_year": 7651.443313449574,
+      "solar_net_cost_usd": 29800.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 12.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 2641.75,
+      "grid_annual_usd": 410.9501844890402,
+      "total_annual_usd": 3052.70018448904,
+      "self_sufficiency": 0.4716542467497845,
+      "export_kwh_per_year": 6227.015540199283,
+      "solar_net_cost_usd": 29800.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 12.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 4241.5,
+      "grid_annual_usd": 345.1546590246126,
+      "total_annual_usd": 4586.654659024613,
+      "self_sufficiency": 0.48799825997990454,
+      "export_kwh_per_year": 5937.669512085128,
+      "solar_net_cost_usd": 29800.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 12.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 5841.25,
+      "grid_annual_usd": 342.03330269488686,
+      "total_annual_usd": 6183.2833026948865,
+      "self_sufficiency": 0.5094240352708157,
+      "export_kwh_per_year": 5670.456048541806,
+      "solar_net_cost_usd": 29800.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 15.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 1540.0,
+      "grid_annual_usd": 458.95370002020184,
+      "total_annual_usd": 1998.9537000202017,
+      "self_sufficiency": 0.39726599002788654,
+      "export_kwh_per_year": 10428.688087190883,
+      "solar_net_cost_usd": 38500.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 15.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 2989.75,
+      "grid_annual_usd": 345.9808571033226,
+      "total_annual_usd": 3335.7308571033227,
+      "self_sufficiency": 0.4961666835720536,
+      "export_kwh_per_year": 8953.577948477774,
+      "solar_net_cost_usd": 38500.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 15.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 4589.5,
+      "grid_annual_usd": 291.80195956419385,
+      "total_annual_usd": 4881.301959564194,
+      "self_sufficiency": 0.515010406941117,
+      "export_kwh_per_year": 8651.595221133604,
+      "solar_net_cost_usd": 38500.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 15.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 6189.25,
+      "grid_annual_usd": 291.572813236504,
+      "total_annual_usd": 6480.822813236504,
+      "self_sufficiency": 0.5438096572416935,
+      "export_kwh_per_year": 8302.296115072437,
+      "solar_net_cost_usd": 38500.0,
+      "battery_net_cost_usd": 46492.5
+    },
+    {
+      "solar_kw": 20.0,
+      "battery_kwh": 0.0,
+      "capital_annualized_usd": 2120.0,
+      "grid_annual_usd": 372.5185286269357,
+      "total_annual_usd": 2492.5185286269357,
+      "self_sufficiency": 0.4208775571504647,
+      "export_kwh_per_year": 15173.078756649571,
+      "solar_net_cost_usd": 53000.0,
+      "battery_net_cost_usd": 0.0
+    },
+    {
+      "solar_kw": 20.0,
+      "battery_kwh": 13.5,
+      "capital_annualized_usd": 3569.75,
+      "grid_annual_usd": 273.506560936725,
+      "total_annual_usd": 3843.256560936725,
+      "self_sufficiency": 0.5230103790220613,
+      "export_kwh_per_year": 13663.096609939043,
+      "solar_net_cost_usd": 53000.0,
+      "battery_net_cost_usd": 14497.5
+    },
+    {
+      "solar_kw": 20.0,
+      "battery_kwh": 27.0,
+      "capital_annualized_usd": 5169.5,
+      "grid_annual_usd": 231.78645243368567,
+      "total_annual_usd": 5401.286452433686,
+      "self_sufficiency": 0.5439913122325152,
+      "export_kwh_per_year": 13353.835349016465,
+      "solar_net_cost_usd": 53000.0,
+      "battery_net_cost_usd": 30495.0
+    },
+    {
+      "solar_kw": 20.0,
+      "battery_kwh": 40.5,
+      "capital_annualized_usd": 6769.25,
+      "grid_annual_usd": 234.40085753795822,
+      "total_annual_usd": 7003.6508575379585,
+      "self_sufficiency": 0.5843137446494667,
+      "export_kwh_per_year": 12874.591132702177,
+      "solar_net_cost_usd": 53000.0,
+      "battery_net_cost_usd": 46492.5
+    }
+  ],
+  "best": {
+    "solar_kw": 4.0,
+    "battery_kwh": 0.0,
+    "capital_annualized_usd": 304.0,
+    "grid_annual_usd": 949.8130118702312,
+    "total_annual_usd": 1253.813011870231,
+    "self_sufficiency": 0.25437098741769015,
+    "export_kwh_per_year": 1051.0254082871795,
+    "solar_net_cost_usd": 7600.0,
+    "battery_net_cost_usd": 0.0
+  },
+  "reference": {
+    "solar_kw": 8.0,
+    "battery_kwh": 13.5,
+    "capital_annualized_usd": 2177.75,
+    "grid_annual_usd": 535.8829754969146,
+    "total_annual_usd": 2713.6329754969147,
+    "self_sufficiency": 0.42157792793588966,
+    "export_kwh_per_year": 2794.0080475481614,
+    "solar_net_cost_usd": 18200.0,
+    "battery_net_cost_usd": 14497.5
+  },
+  "retention_sensitivity": [
+    {
+      "retention": 1.0,
+      "best_solar_kw": 4.0,
+      "best_battery_kwh": 0.0,
+      "best_total": 1253.813011870231,
+      "reference_total": 2693.348781010802
+    },
+    {
+      "retention": 0.9,
+      "best_solar_kw": 4.0,
+      "best_battery_kwh": 0.0,
+      "best_total": 1253.813011870231,
+      "reference_total": 2700.224353111758
+    },
+    {
+      "retention": 0.8,
+      "best_solar_kw": 4.0,
+      "best_battery_kwh": 0.0,
+      "best_total": 1253.813011870231,
+      "reference_total": 2707.002515157445
+    },
+    {
+      "retention": 0.7,
+      "best_solar_kw": 4.0,
+      "best_battery_kwh": 0.0,
+      "best_total": 1253.813011870231,
+      "reference_total": 2713.6329754969147
+    },
+    {
+      "retention": 0.6,
+      "best_solar_kw": 4.0,
+      "best_battery_kwh": 0.0,
+      "best_total": 1253.813011870231,
+      "reference_total": 2720.1649558899226
+    }
+  ],
+  "assumptions": {
+    "round_trip_eff": 0.9128205128205129,
+    "battery_lifetime_years": 10.0,
+    "retention_at_end_of_life": 0.7
+  }
+}
